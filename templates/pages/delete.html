@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load exstra_fields %} {% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card my-4">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div
+          class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+        >
+          <h6 class="text-white text-capitalize ps-3">
+            Delete : "{{data|get_item:'field'}}" Field for
+            #{{data|get_item:'categoryId'}}
+          </h6>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2 m-4">
+        <h5>Are u sure?</h5>
+        <form method="post" id="delete">
+          {% csrf_token %}
+          <button type="submit" form="delete" class="btn btn-dark m-2">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

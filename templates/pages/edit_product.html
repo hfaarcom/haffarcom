@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% load exstra_fields %} {% load widget_tweaks %}
+{%block links %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous"
+/>
+{% endblock links %} {% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card my-4">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div
+          class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+        >
+          <h6 class="text-white text-capitalize ps-3">
+            {{product.fields|get_item:'title'}} #{{product.id}}
+          </h6>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+          <div class="col-lg mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-header p-3 pt-2">
+                Edit Product : {{product.fields|get_item:'title'}}
+                #{{product.id}}
+              </div>
+
+              <form
+                id="mainform"
+                action="{{product.get_absolute_url}}"
+                method="post"
+              >
+                {% csrf_token %}
+                <div class="card-body px-0 pb-2 align-items-center">
+                  <div class="form-group row d-flex justify-content-center">
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="name">User</label>
+                      {{form.user|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="photo">Expire Date</label>
+                      {{form.expire_date|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="status">Status</label>
+                      {{form.status|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="status">Category</label>
+                      {{form.category|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="status">Sub Category</label>
+                      {{form.subCategory|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="status">Date</label>
+                      <input
+                        value="{{product.date}}"
+                        class="form-control"
+                        disabled
+                      />
+                    </div>
+
+                    <!-- Button trigger modal -->
+                    <button
+                      type="submit"
+                      class="btn btn-dark w-95"
+                      form="mainform"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2 align-items-center">
+                  <div class="form-group row d-flex justify-content-center">
+                    {% for k,v in product.category.fields|get_items %}
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="{{k}}">{{k}}</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="{{product.fields|get_item:k}}"
+                        id="{{k}}"
+                        name="{{k}}"
+                      />
+                    </div>
+                    {% endfor %}
+                    <button
+                      class="btn btn-dark w-95"
+                      form="mainform"
+                      type="submit"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

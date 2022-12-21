@@ -1,0 +1,86 @@
+{% extends 'base.html' %} {% load widget_tweaks %} {% load exstra_fields %} {%
+load widget_tweaks %} {%block links %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous"
+/>
+{% endblock links %} {% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card my-4">
+      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div
+          class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+        >
+          <h6 class="text-white text-capitalize ps-3">Edit Main Data</h6>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+          <div class="col-lg mb-xl-0 mb-4">
+            <div class="card">
+              <div class="card-body px-0 pb-2 align-items-center">
+                <form
+                  id="mainform"
+                  method="post"
+                  action="{{product.get_absolute_url}}"
+                >
+                  {% csrf_token %}
+                  <div class="form-group row d-flex justify-content-center">
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="name">About us Text</label>
+                      {{form.about_us|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="status">Agreement Text</label>
+                      {{form.agree_text|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="photo">Privacy Policy Text</label>
+                      {{form.privacy_policy|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">Paymenyt Page Text</label>
+                      {{form.payment_info_text|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">Paymenyt Page Link</label>
+                      {{form.payment_info_link|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="date">Contact Number</label>
+                      {{form.contact_number|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">Whatsup Number Link</label>
+                      {{form.whatsup_number|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">App Name</label>
+                      {{form.app_name|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">Icon Link</label>
+                      {{form.icon_link|attr:"class:form-control"}}
+                    </div>
+                    <button
+                      class="btn btn-dark w-95"
+                      form="mainform"
+                      type="submit"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
