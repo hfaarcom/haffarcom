@@ -175,5 +175,5 @@ LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = '/login/'
 
 
-# if os.getcwd() == '/app':
-#     DEBUG = False
+if os.getcwd() == '/app':
+    DEBUG = False
