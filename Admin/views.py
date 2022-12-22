@@ -22,12 +22,12 @@ def HomePage(request):
         'category' : categories.count(),
         'ad' : ads.count(),
         'user' : users.count(),
-        # product monthly num
-        'pm': getDataByDate(Product, 'monthly', 'date'),
-        # ads monthly num
-        'am': getDataByDate(AD, 'monthly', 'date'),
-        # users monthly num
-        'um': getDataByDate(User, 'monthly', 'date_joined'),
+        # # product monthly num
+        # 'pm': getDataByDate(Product, 'monthly', 'date'),
+        # # ads monthly num
+        # 'am': getDataByDate(AD, 'monthly', 'date'),
+        # # users monthly num
+        # 'um': getDataByDate(User, 'monthly', 'date_joined'),
         'page_title':page_title
     }
 
