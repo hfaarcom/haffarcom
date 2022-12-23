@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +29,6 @@ API_KEY = '5p3whPvbCHDqKRqxLKhzLOU2dT9B2Z'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 
 # Application definition
@@ -77,7 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries':{
-            'custom_templatetag': 'Admin.templatetags.exstra_fields',
+                'custom_templatetag': 'Admin.templatetags.exstra_fields',
 
             }
         },
@@ -91,13 +91,22 @@ WSGI_APPLICATION = 'base.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    # railway postgress database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'railway',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'dgvZyDpofiQBMIFLjBUh',
+    #     'HOST': 'containers-us-west-189.railway.app',
+    #     'PORT': '6461',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'dgvZyDpofiQBMIFLjBUh',
-        'HOST': 'containers-us-west-189.railway.app',
-        'PORT': '6461',
+        'NAME': 'Omar',
+        'USERNAME': 'Omar',
+        'PASSWORD': 'omar191513',
+        'HOST': 'database-2.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -147,11 +156,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # static
 
 STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, 'base/static/')
+    os.path.join(BASE_DIR, 'base/static/')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'static/img')
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 
 
 AUTHENTICATION_BACKENDS = [
@@ -163,9 +171,9 @@ AUTHENTICATION_BACKENDS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-SITE_ID= 1
+SITE_ID = 1
 
-ACCOUNT_EMAIL_REQUIRED=False
+ACCOUNT_EMAIL_REQUIRED = False
 
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = '/login/'
@@ -173,4 +181,3 @@ LOGIN_URL = '/login/'
 
 if os.getcwd() == '/app':
     DEBUG = False
-

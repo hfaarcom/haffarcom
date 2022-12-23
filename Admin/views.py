@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+
 
 @login_required()
 def HomePage(request):
@@ -18,21 +18,21 @@ def HomePage(request):
 
     context = {
         'product_num': products.count(),
-        'product' : products,
-        'category' : categories.count(),
-        'ad' : ads.count(),
-        'user' : users.count(),
+        'product': products,
+        'category': categories.count(),
+        'ad': ads.count(),
+        'user': users.count(),
         # product monthly num
         'pm': getDataByDate(Product, 'monthly', 'date'),
         # ads monthly num
         'am': getDataByDate(AD, 'monthly', 'date'),
         # users monthly num
         'um': getDataByDate(User, 'monthly', 'date_joined'),
-        'page_title':page_title
+        'page_title': page_title
     }
 
-
     return render(request, 'pages/home.html', context=context)
+
 
 @login_required()
 def ProductsPage(request):
@@ -43,13 +43,14 @@ def ProductsPage(request):
     paginator = Paginator(products, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
-    context = {
-        'page_obj':page_obj,
-        'page_title' : page_title   
-        }
 
-    return render(request,'pages/products.html' , context)
+    context = {
+        'page_obj': page_obj,
+        'page_title': page_title
+    }
+
+    return render(request, 'pages/products.html', context)
+
 
 @login_required()
 def EditProductPage(request, pk):
@@ -63,12 +64,13 @@ def EditProductPage(request, pk):
 
         if form.is_valid():
             form.save()
- 
+
         data = request.POST
         newData = {}
-        for k,v in dict(data).items():
+        for k, v in dict(data).items():
             newData[k] = v[0]
-        fields_to_remove = ('user', 'expire_date', 'status', 'category', 'subCategory','csrfmiddlewaretoken')
+        fields_to_remove = ('user', 'expire_date', 'status',
+                            'category', 'subCategory', 'csrfmiddlewaretoken')
         for i in fields_to_remove:
             newData.pop(i)
         product.fields = newData
@@ -78,12 +80,13 @@ def EditProductPage(request, pk):
         return redirect('products')
 
     context = {
-        'product':product,
-        'form':form,
-        'page_title':page_title
+        'product': product,
+        'form': form,
+        'page_title': page_title
     }
 
     return render(request, 'pages/edit_product.html', context)
+
 
 @login_required()
 def UsersPage(request):
@@ -92,12 +95,13 @@ def UsersPage(request):
     paginator = Paginator(users, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
-        'page_obj':page_obj,
-        'page_title':page_title
+        'page_obj': page_obj,
+        'page_title': page_title
     }
     return render(request, 'pages/users.html', context)
+
 
 @login_required()
 def EditUserPage(request, pk):
@@ -121,17 +125,17 @@ def EditUserPage(request, pk):
 
         if len(data['password']) >= 6:
             user.set_password(data['password'])
-        
 
         user.save()
 
         return redirect('users')
 
     context = {
-        'user':user,
-        'page_title':page_title
+        'user': user,
+        'page_title': page_title
     }
     return render(request, 'pages/edit_user.html', context)
+
 
 @login_required()
 def CategoryPage(request):
@@ -142,11 +146,12 @@ def CategoryPage(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-         'page_obj':page_obj,
-         'page_title':page_title
+        'page_obj': page_obj,
+        'page_title': page_title
     }
 
     return render(request, 'pages/categories.html', context)
+
 
 @login_required()
 def EditCategoryPage(request, pk):
@@ -169,11 +174,12 @@ def EditCategoryPage(request, pk):
         return redirect('category')
 
     context = {
-        'category':category,
-        'page_title':page_title
+        'category': category,
+        'page_title': page_title
     }
 
     return render(request, 'pages/edit_category.html', context)
+
 
 @login_required()
 def deleteCategory(request, pk, F):
@@ -182,23 +188,24 @@ def deleteCategory(request, pk, F):
 
     if F != 0:
         type = 'deleteField'
-        data = {'categoryId':pk, 'field': F}
+        data = {'categoryId': pk, 'field': F}
     else:
         type = 'deleteCategory'
-        data = {'categoryId':pk}
-    
+        data = {'categoryId': pk}
+
     if request.method == 'POST':
         category.fields.pop(F)
         category.save()
         return redirect('edit_category', pk=category.id)
 
     context = {
-        'type':type,
-        'data':data,
-        'page_title':page_title
+        'type': type,
+        'data': data,
+        'page_title': page_title
     }
 
     return render(request, 'pages/delete.html', context)
+
 
 @login_required()
 def ADPages(request):
@@ -207,12 +214,13 @@ def ADPages(request):
     paginator = Paginator(ads, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
-        'page_obj':page_obj,
-        'page_title':page_title
+        'page_obj': page_obj,
+        'page_title': page_title
     }
     return render(request, 'pages/ads.html', context)
+
 
 @login_required()
 def EditAdPage(request, pk):
@@ -235,12 +243,13 @@ def EditAdPage(request, pk):
         else:
             return redirect('ads')
     context = {
-        'ad':ad,
-        'form':form,
-        'page_title':page_title
+        'ad': ad,
+        'form': form,
+        'page_title': page_title
     }
- 
+
     return render(request, 'pages/edit_ad.html', context)
+
 
 @login_required()
 def AddNewAD(request):
@@ -258,17 +267,18 @@ def AddNewAD(request):
         form = ADForm()
 
     context = {
-        'form':form,
-        'page_title':page_title
+        'form': form,
+        'page_title': page_title
     }
-    
-    return render(request,'pages/new_ad.html', context)
+
+    return render(request, 'pages/new_ad.html', context)
+
 
 @login_required()
 def AddNewCategory(request):
     page_title = 'add new category'
     if request.method == 'POST':
-        form  = CategoryForm(request.POST)
+        form = CategoryForm(request.POST)
 
         if form.is_valid():
             if not Category.objects.filter(name=form.cleaned_data['name']).exists():
@@ -278,26 +288,28 @@ def AddNewCategory(request):
             return redirect('category')
     else:
         form = CategoryForm()
-    
+
     context = {
-        'form':form,
-        'page_title':page_title
+        'form': form,
+        'page_title': page_title
     }
     return render(request, 'pages/new_category.html', context)
 
-@login_required()      
+
+@login_required()
 def SubCategoryPage(request):
     page_title = 'subcategory'
     sub = SubCategory.objects.all().order_by('-id')
     paginator = Paginator(sub, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
-        'page_obj':page_obj,
-        'page_title':page_title
+        'page_obj': page_obj,
+        'page_title': page_title
     }
     return render(request, 'pages/sub.html', context)
+
 
 @login_required()
 def EditSubCategory(request, pk):
@@ -318,18 +330,19 @@ def EditSubCategory(request, pk):
         else:
             return redirect('sub')
     context = {
-        'sub':sub,
-        'form':form,
-        'page_title':page_title
+        'sub': sub,
+        'form': form,
+        'page_title': page_title
     }
- 
+
     return render(request, 'pages/edit_sub.html', context)
+
 
 @login_required()
 def AddNewSubCategory(request):
     page_title = 'add new subcategory'
     if request.method == 'POST':
-        form  = SubCategoryForm(request.POST)
+        form = SubCategoryForm(request.POST)
 
         if form.is_valid():
             if not SubCategory.objects.filter(name=form.cleaned_data['name']).exists():
@@ -339,14 +352,15 @@ def AddNewSubCategory(request):
             return redirect('sub')
     else:
         form = SubCategoryForm()
-    
+
     context = {
-        'form':form,
-        'page_title':page_title
+        'form': form,
+        'page_title': page_title
     }
     return render(request, 'pages/new_sub.html', context)
 
-@login_required() 
+
+@login_required()
 def AboutPage(request):
     page_title = 'about'
     about = About.objects.get(id=1)
@@ -367,11 +381,10 @@ def AboutPage(request):
             about.save()
     else:
         form = AboutForm(instance=about)
-    
-    context = {
-        'form':form,
-        'page_title':page_title
-    }
-    
-    return render(request, 'pages/about.html', context)
 
+    context = {
+        'form': form,
+        'page_title': page_title
+    }
+
+    return render(request, 'pages/about.html', context)
