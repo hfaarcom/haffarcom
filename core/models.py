@@ -94,4 +94,4 @@ class About(models.Model):
     payment_info_text = models.CharField(max_length=100000, null=True)
     payment_info_link = models.CharField(
         max_length=1000, null=True, blank=True)
-    product_expire_days = models.IntegerField(null=True)
+    product_expire_days = models.IntegerField(null=True, blank=True)
