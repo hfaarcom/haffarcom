@@ -1,4 +1,4 @@
-from django.urls import path 
+from django.urls import path
 from . import views
 
 urlpatterns = [
@@ -7,7 +7,9 @@ urlpatterns = [
     path('product/get/id/', views.getProductbyId),
     path('product/get/category/', views.getProductByCat),
     path('product/get/category/sub/', views.getProductBySubCat),
-    path('product/update/fields/', views.updateProdcut),
+    path('product/update/fields/', views.updateProdcutFields),
+    path('product/update/status', views.updateProductStatus),
+    path('prodcut/update/expire/', views.updateProductExpireDate),
 
     path('user/login/', views.Login),
     path('user/register/', views.Register),

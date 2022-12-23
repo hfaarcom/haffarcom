@@ -55,9 +55,10 @@ def addNewProduct(request):
 def getUserProducts(request):
     try:
         data = request.query_params
-        if 'user' in data:
+        if {'user', 'status'} <= set(data):
             # get data + serialize it
-            products = Product.objects.filter(user=data['user'])
+            products = Product.objects.filter(
+                user=data['user'], status=data['status'])
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
@@ -87,10 +88,11 @@ def getProductByCat(request):
 def getProductBySubCat(request):
     try:
         data = request.query_params
-        if 'subcategory' in data:
+        if {'subcategory', 'status'} <= set(data):
             # check data + serialize it
             category = SubCategory.objects.get(id=data['id'])
-            products = Product.objects.filter(subCategory=category)
+            products = Product.objects.filter(
+                subCategory=category, status=data['status'])
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -116,7 +118,7 @@ def getProductbyId(request):
 
 
 @api_view(['POST'])
-def updateProdcut(request):
+def updateProdcutFields(request):
     try:
         data = request.data
         if {'product', 'fields'} <= set(data):
@@ -139,6 +141,43 @@ def updateProdcut(request):
                 return Response({'error': 'Product Fields Does not match with its category'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def updateProductStatus(request):
+    try:
+        data = request.data
+        if {'status', 'api_key', 'product'} <= set(data):
+            if data['api_key'] == settings.API_KEY:
+                product = Product.objects.get(id=data['product'])
+                product.status = data['status']
+                product.save()
+                return Response({'updated': product.status}, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def updateProductExpireDate(request):
+    try:
+        data = request.data
+        if {'product', 'api_key'} <= set(data):
+            if data['api_key'] == settings.API_KEY:
+                product = Product.objects.get(id=data['product'])
+                product.expire_date = date.today(
+                ) + timedelta(days=About.objects.get(id=1).product_expire_days)
+                product.save()
+                return Response({'updated': product.expire_date}, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
