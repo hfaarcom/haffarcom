@@ -57,8 +57,12 @@ def getUserProducts(request):
         data = request.query_params
         if {'user', 'status'} <= set(data):
             # get data + serialize it
-            products = Product.objects.filter(
-                user=data['user'], status=data['status'])
+            if data['status'] != 'all':
+                products = Product.objects.filter(
+                    user=data['user'], status=data['status'])
+            else:
+                products = Product.objects.filter(user=data['user'])
+
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
