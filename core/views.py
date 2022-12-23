@@ -15,11 +15,12 @@ from datetime import date, timedelta
 def addNewProduct(request):
     try:
         data = request.data
-        if {'user', 'category', 'fields'} <= set(data):
+        if {'user', 'category', 'fields', 'subcategory'} <= set(data):
             # check POST data
             user = User.objects.get(id=data['user'])
             category = Category.objects.get(id=data['category'])
             fields = data['fields']
+            subcategory = SubCategory.objects.get(id=data['subcategory'])
             expire_date = date.today() + timedelta(days=About.objects.get(id=1).product_expire_days)
 
             # convert STR to DICT/JSON
@@ -30,7 +31,7 @@ def addNewProduct(request):
 
                 # create New Product
                 newProduct = Product.objects.create(
-                    user=user, category=category, fields=Jfields, status='approved', expire_date=expire_date
+                    user=user, category=category, fields=Jfields, status='approved', expire_date=expire_date, subCategory=subcategory
                 )
 
                 # serialize data
