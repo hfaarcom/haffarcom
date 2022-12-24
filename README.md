@@ -110,16 +110,16 @@ possible errors:
 	in this case u have to check product fields keys that u post, it has to match the category fields keys that given
 
 ```python 
-		fields = data[‘fields’]
-		category = Category.objects.get(id=data[‘category’])
+    fields = data[‘fields’]
+    category = Category.objects.get(id=data[‘category’])
     # convert STR to DICT/JSON
     Jfields = json.loads(fields)
  
     # check Product Fields
     if Jfields.keys() == category.fields.keys():
-			do some stuff
-		else:
-			return {{'error': 'Product Fields Does not match with its category'}}
+	do some stuff
+    else:
+	return {{'error': 'Product Fields Does not match with its category'}}
 ```
 
 —-
@@ -218,8 +218,11 @@ check query params
 
 5- get product data by product id
 method : GET
+
 endpoint : /product/get/id/
+
 query params:
+
 id : product id
 
 returned data:
@@ -233,9 +236,13 @@ check query params
 
 6- update product fields data
 method : POST
+
 endpoint : /product/update/fields/
+
 data to post :
+
 product : product id,
+
 fields  : ALL product fields even the ones which u dont want to update
 
 note :
