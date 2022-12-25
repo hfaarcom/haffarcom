@@ -188,16 +188,26 @@ possible errors:
 	return {{'error': 'Product Fields Does not match with its category'}}
 ```
 
-—------------------------------------
+------------------------------------
 
 
 2- get user products
- method: GET,
-endpoint : /product/get/user/,
-required query params : 
-{‘user’:’user id’, ‘status’:’product status’}
 
-product status has to be one of these:
+ method: GET,
+ 
+endpoint : /product/get/user/,
+
+required query params : 
+
+{
+
+‘user’:’user id’, 
+‘status’:’product status’
+
+}
+
+product status have to be one of these:
+
 ```
     ('approved),
     ('declined'),
@@ -205,8 +215,12 @@ product status has to be one of these:
     ('sold'),
     ('Deleted')
 ```
+
 if u want to get all products with all status
+
+```
 set status to 'all'
+```
 
 ```python
 # get data + serialize it
@@ -219,55 +233,61 @@ else:
 
 returned data :
 {
+
 date: product created date,
+
 user: user id,
+
 expire_date : product expire date,
+
 status: product status,
+
 category: category id,
+
 subcategory : subcategory id,
+
 fields : product fields , OBJECT!
+
 }
 
-errors:
-```
-{'error': 'bad request'}
-```
-
-pls recheck the given data
-it has to be :
-```
- {'user', 'status'}
-```
 
 3- get products by specific category 
+
 method : GET
+
 endpoint : /product/get/category/
+
 required query params:
-{'category': category id}
+
+'category': category id
+
 
 returned data :
+```
 [
-list with all products with that category
-]
 
-errors :
-bad request
-check query params 
+list with all products with that category
+
+]
+```
+
 
 4- get products by subcategory 
+
 method : GET
+
 endpoint : product/get/category/sub/
+
 query params:
+
 subcategory : subcategory id 
 
 returned data : 
+```
 [
 list with all products with that subcategory
 ]
-
-errors:
-bad request :
-check query params
+```
 
 5- get product data by product id
 method : GET
@@ -279,15 +299,15 @@ query params:
 id : product id
 
 returned data:
-{
-product data here,
-}
 
-errors:
-bad data
-check query params
+```
+{
+normal product data here,
+}
+```
 
 6- update product fields data
+
 method : POST
 
 endpoint : /product/update/fields/
@@ -296,15 +316,19 @@ data to post :
 
 product : product id,
 
-fields  : ALL product fields even the ones which u dont want to update
+fields  : ALL product fields even the ones u dont want to update
 
-note :
+-note- :
+
 * the new fields that u wanna update has to match with product category fields
+
 or u gonna get this error: 
 ```
 {'error': 'Product Fields Does not match with its category'}, status=status.HTTP_400_BAD_REQUEST}
 ```
 returned data :
+```
 {
 product with new fields data
 }
+```
