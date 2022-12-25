@@ -56,7 +56,7 @@ load widget_tweaks %} {%block links %}
                     </div>
                     <div class="col-lg-6 mb-2 p-3">
                       <label for="contact">Whatsup Number Link</label>
-                      {{form.whatsup_number|attr:"class:form-control"}}
+                      {{form.whatsapp_number|attr:"class:form-control"}}
                     </div>
                     <div class="col-lg-6 mb-2 p-3">
                       <label for="contact">App Name</label>
@@ -65,6 +65,10 @@ load widget_tweaks %} {%block links %}
                     <div class="col-lg-6 mb-2 p-3">
                       <label for="contact">Icon Link</label>
                       {{form.icon_link|attr:"class:form-control"}}
+                    </div>
+                    <div class="col-lg-6 mb-2 p-3">
+                      <label for="contact">Product Expire Days</label>
+                      {{form.product_expire_days|attr:"class:form-control"}}
                     </div>
                     <button
                       class="btn btn-dark w-95"
