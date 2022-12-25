@@ -261,6 +261,7 @@ def AddNewAD(request):
             form.save()
             return redirect('ads')
         else:
+            print(form.errors.as_text)
             return redirect('ads')
 
     else:

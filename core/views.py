@@ -408,7 +408,7 @@ def ADS(request):
             if data['api_key'] == settings.API_KEY:
                 # check data + serialize it
                 ads = AD.objects.all()
-                serializer = ADSerializer(ads)
+                serializer = ADSerializer(ads, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
