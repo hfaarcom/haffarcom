@@ -90,7 +90,7 @@ class About(models.Model):
     privacy_policy = models.CharField(max_length=100000, null=True)
     about_us = models.CharField(max_length=10000, null=True)
     contact_number = models.CharField(max_length=100, null=True)
-    whatsup_number = models.CharField(max_length=100, null=True)
+    whatsapp_number = models.CharField(max_length=100, null=True)
     agree_text = models.CharField(max_length=100000, null=True)
     payment_info_text = models.CharField(max_length=100000, null=True)
     payment_info_link = models.CharField(

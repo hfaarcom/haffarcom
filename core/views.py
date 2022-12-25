@@ -233,7 +233,7 @@ def getCategories(request):
         if 'api_key' in data:
             if data['api_key'] == settings.API_KEY:
                 # check data + serialize it
-                category = Category.objects.all()
+                category = Category.objects.filter(status='approved')
                 serializer = CategorySerializer(category, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
@@ -243,8 +243,26 @@ def getCategories(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-# subcategory
 
+@api_view(['GET'])
+def getCategory(request):
+    try:
+        data = request.query_params
+        if {'api_key', 'category'} <= set(data):
+            if data['api_key'] == settings.API_KEY:
+                # check data + serialize it
+                category = Category.objects.get(id=data['category'])
+                serializer = CategorySerializer(category, many=False)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'Bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'API_KEY required'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# subcategory
 
 @api_view(['GET'])
 def getSubCategoryById(request):
@@ -302,23 +320,32 @@ def getProductComments(request):
 
 
 @api_view(['POST'])
-def newComment(request):
+def Mcomment(request):
     try:
         data = request.data
-        if {'user', 'description', 'product'} <= set(data):
-            # check data + serialize it
-            user = User.objects.get(id=data['user'])
-            product = Product.objects.get(id=data['product'])
-            description = data['description']
+        if request.method == 'PUT':
+            if {'user', 'description', 'product'} <= set(data):
+                # check data + serialize it
+                user = User.objects.get(id=data['user'])
+                product = Product.objects.get(id=data['product'])
+                description = data['description']
 
-            comment = Comment.objects.create(
-                user=user, product=product, description=description)
+                comment = Comment.objects.create(
+                    user=user, product=product, description=description)
 
-            serializer = CommentSerializer(comment)
+                serializer = CommentSerializer(comment, many=False)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            if 'comment' in data:
+                comment = Comment.objects.get(id=data['comment'])
+                comment.delete()
+                return Response({'deleted'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -349,7 +376,7 @@ def getADS(request):
 def Login(request):
     try:
         data = request.data
-        if {'email', 'password'} <= set(data):
+        if {'username', 'password'} <= set(data):
             # check user
             username = data['username']
             password = data['password']
@@ -362,7 +389,7 @@ def Login(request):
                 # serialize + return
                 if auth is not None:
                     user = User.objects.get(username=username)
-                    return Response({'user': user.id, 'username': user.username, 'first_name': user.first_name, 'contact': user.last_name, 'email': user.email}, status=status.HTTP_202_ACCEPTED)
+                    return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email}, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
             else:
@@ -405,21 +432,20 @@ def updateUser(request):
 def Register(request):
     try:
         data = request.data
-        if {'username', 'password', 'email', 'name', 'contact'} <= set(data):
+        if {'username', 'password', 'name', 'contact'} <= set(data):
             # check data + serialize it
             username = data['username']
             first_name = data['name']
-            email = data['email']
             contact = data['contact']
             # check if username and email are unique
-            if not User.objects.filter(username=username).exists() and not User.objects.filter(email=email).exists():
+            if not User.objects.filter(username=username).exists():
                 newUser = User.objects.create_user(
-                    username, email, data['password'])
+                    username=username, password=data['password'])
                 newUser.first_name = first_name
                 # Last Name is the contact Number ...
                 newUser.last_name = contact
                 newUser.save()
-                return Response({'username': username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': newUser.id}, status=status.HTTP_201_CREATED)
+                return Response({'username': username, 'name': first_name, 'contact': contact, 'user': newUser.id}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'username or email already exists'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -442,7 +468,7 @@ def ChangePassword(request):
                 newUser = User.objects.get(username=username)
                 newUser.set_password(data['newpassword'])
                 newUser.save()
-                return Response({'username': username, 'email': newUser.email, 'first_name': newUser.first_name, 'contact': newUser.last_name, 'id': newUser.id}, status=status.HTTP_202_ACCEPTED)
+                return Response({'username': username, 'name': newUser.first_name, 'contact': newUser.last_name, 'user': newUser.id}, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
         else:
