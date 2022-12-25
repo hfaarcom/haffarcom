@@ -37,6 +37,7 @@ class Product(models.Model):
         'Category', on_delete=models.CASCADE, null=True)
     subCategory = models.ForeignKey(
         'SubCategory', on_delete=models.CASCADE, null=True)
+    photos = models.JSONField()
     fields = models.JSONField()
 
     def get_absolute_url(self):

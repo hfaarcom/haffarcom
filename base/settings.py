@@ -25,6 +25,11 @@ SECRET_KEY = 'django-insecure-5$p4*o@vsygv*ide!@ay@-(54zro=z%g(9@exm)9vuc5gdp_&9
 
 # API_KEY
 API_KEY = '5p3whPvbCHDqKRqxLKhzLOU2dT9B2Z'
+
+DJ_SECRET_KEY = 'OsuMhWY/TkZDRJQ2KBIUEtI6dx+RevllbckPYyez1qw'
+DJ_PUBLIC_KEY = 'DO00ELXFPFGXPC7PURUP'
+DJ_BUCKET_NAME = 'bucket'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

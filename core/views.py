@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import *
 from .serializers import *
+from .utails import *
 import json
 from datetime import date, timedelta
 
@@ -15,30 +16,49 @@ from datetime import date, timedelta
 def addNewProduct(request):
     try:
         data = request.data
-        if {'user', 'category', 'fields', 'subcategory'} <= set(data):
+        if {'user', 'category', 'fields', 'subcategory', 'photos'} <= set(data):
             # check POST data
             user = User.objects.get(id=data['user'])
             category = Category.objects.get(id=data['category'])
             fields = data['fields']
+            photos = data['photos']
             subcategory = SubCategory.objects.get(id=data['subcategory'])
             expire_date = date.today() + timedelta(days=About.objects.get(id=1).product_expire_days)
 
             # convert STR to DICT/JSON
             Jfields = json.loads(fields)
+            Jphotos = json.loads(photos)
+
+            photosDict = {}
+            errorPhotos = {}
+
+            for k, v in Jphotos:
+                check = checkFile(k)
+                if check:
+                    url = uploadfile(v.file, k, 'png')
+                    photosDict[k] = url
+                else:
+                    errorPhotos[k] = 'File With That Name Exists'
 
             # check Product Fields
             if Jfields.keys() == category.fields.keys():
 
                 # create New Product
                 newProduct = Product.objects.create(
-                    user=user, category=category, fields=Jfields, status='approved', expire_date=expire_date, subCategory=subcategory
+                    user=user,
+                    category=category,
+                    fields=Jfields,
+                    status='approved',
+                    expire_date=expire_date,
+                    subCategory=subcategory,
+                    photos=photosDict
                 )
 
                 # serialize data
                 serializer = ProductsSerilizer(newProduct, many=False)
 
                 # return data
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response({'data': serializer.data, 'errorPhotos': errorPhotos}, status=status.HTTP_201_CREATED)
 
             else:
 
@@ -92,11 +112,11 @@ def getProductByCat(request):
 def getProductBySubCat(request):
     try:
         data = request.query_params
-        if {'subcategory', 'status'} <= set(data):
+        if 'subcategory' in data:
             # check data + serialize it
             category = SubCategory.objects.get(id=data['id'])
             products = Product.objects.filter(
-                subCategory=category, status=data['status'])
+                subCategory=category)
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -116,7 +136,7 @@ def getProductbyId(request):
             serializer = ProductsSerilizer(product, many=False)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'Bad Data'})
+            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
