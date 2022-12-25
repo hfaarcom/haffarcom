@@ -28,4 +28,6 @@ urlpatterns = [
 
 
     path('about/', views.AboutApi),
+
+    path('ads/', views.ADS),
 ]

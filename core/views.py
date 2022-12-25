@@ -401,7 +401,7 @@ def Productcomment(request):
 
 
 @api_view(['POST'])
-def getADS(request):
+def ADS(request):
     try:
         data = request.data
         if 'api_key' in data:
@@ -416,6 +416,7 @@ def getADS(request):
             return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # authentication
 
