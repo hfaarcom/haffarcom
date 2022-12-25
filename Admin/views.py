@@ -371,7 +371,7 @@ def AboutPage(request):
             about.privacy_policy = form.cleaned_data['privacy_policy']
             about.about_us = form.cleaned_data['about_us']
             about.contact_number = form.cleaned_data['contact_number']
-            about.whatsup_number = form.cleaned_data['whatsup_number']
+            about.whatsapp_number = form.cleaned_data['whatsapp_number']
             about.agree_text = form.cleaned_data['agree_text']
             about.payment_info_text = form.cleaned_data['payment_info_text']
             about.payment_info_link = form.cleaned_data['payment_info_link']
