@@ -75,7 +75,7 @@ its so easy to read
 and u can check every table and its fields and data type
 —--------------------------------
 
-1- products endpoints:
+# 1- products endpoints:
 -------------------------------
 1- create new product:
 
@@ -219,7 +219,7 @@ product status have to be one of these:
 if u want to get all products with all status
 
 ```
-set status to 'all'
+set status param to 'all'
 ```
 
 ```python
@@ -332,3 +332,190 @@ returned data :
 product with new fields data
 }
 ```
+
+7- update product status
+
+method : POST
+
+endpoint : /product/update/status/
+
+data to post :
+
+{
+'status': new product status,
+'api_key': api key,
+'product': prooduct Id
+}
+
+-note- :
+
+product status : 
+
+```
+    ('approved),
+    ('declined'),
+    ('pending'),
+    ('sold'),
+    ('Deleted')
+```
+
+returned data : 
+{
+normal product data + status updated
+}
+
+
+8- update product expire date
+every single product has a expire_date
+when current date >= expire_date
+the user have to update his product expire date
+
+to do it :
+
+method : POST
+
+endpoint : /product/update/expire/
+
+data to post :
+
+{
+'api_key': api key,
+'product': product id
+}
+
+returned data :
+{
+'updated': prodcut new expire date!
+}
+
+# 2- User Authencation
+
+1- login : 
+
+method : POST
+
+endpoit : /user/login/
+
+data to post :
+
+{
+
+'username': user username,
+
+'password': user password,
+
+}
+
+returned data :
+
+```
+{
+'user': user.id, 
+'username': user.username, 
+'name': user.name, 
+'contact': user.contact, 
+}
+```
+
+- username can be :
+
+-1 user email
+
+-2 user phone number
+
+-3 normal username
+
+because some users may registerd by their email or phone number.
+
+but in database it will stored as 'username'
+
+the most important thing here is -user id-
+
+2- register -sign up-
+
+method : POST
+
+endpoint : /user/register/
+
+data to post : 
+```
+{
+'username': its the method how user wants to login - it can be email or phone number - , have to be unique
+'password': user password it have to be atleast 8 digits,
+'name': 'full user name',
+'contact': user contact number -int-
+}
+```
+
+returned data :
+```
+{
+'username': username, 
+'name': name, 
+'contact': contact, 
+'user': user.id
+}
+```
+
+3- update user
+
+user can only update his password by knowing his old password
+
+to -reset password- he have to contact with admin to reset it
+
+method : POST
+
+endpoint : /user/update/
+
+data to post : 
+```
+{
+'username': user -username-,
+'oldpassword': user oldpassword,
+'newpassword': newpassword
+}
+```
+
+returned data : 
+```
+{
+'user': user.id,
+'username': user.username, 
+'email': user.email, 
+'name': user.name, 
+'contact': user.contact, 
+}
+```
+
+# 3- about 
+
+to get about app data :
+
+method : GET
+
+endpoint : /about/
+
+query params : 
+
+-No query params-
+
+returned data : 
+```
+{
+'icon_link': in app icon link,
+'privacy_policy' : privacy policy page text,
+'about_us': about us page text,
+'contact_number' : admin contact number,
+'whatsapp_number' : admin whatsapp number,
+'agree_text' : agreement page text,
+'payment_info_text': payment info page text,
+'payment_info_link' : payment info link,
+'product_expire_days' : after (var) days the product gonna expire
+}
+```
+
+- note :
+lets say the admin dont want 'payment_info_link'
+the value gonna be then '1'
+1 = null
+anything here its value is '1' that means Null
