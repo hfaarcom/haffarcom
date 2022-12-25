@@ -73,33 +73,100 @@ class About(models.Model):
 
 its so easy to read
 and u can check every table and its fields and data type
-—-
+—--------------------------------
 
 1- products endpoints:
-
+-------------------------------
 1- create new product:
 
-	method : POST
-	endpoint : /products/create/
 
-	required data : {
-	‘user’: user id, Int
-	‘category’ : category id, Int
-	‘fields’ : product fields, Object
-	‘subcategory’: subcategory id, Int
+	- method : POST
+	
+	- endpoint : /products/create/
+
+	- data to post : 
+	
+	{
+	
+	- ‘user’: user id, Int
+	
+	- ‘category’ : category id, Int
+	
+	- ‘fields’ : product fields, Object
+	
+	- ‘subcategory’: subcategory id, Int
+	
+	- 'photos' : product photos, Object
+	
+	}
+
+----------------------------------------
+photos object have to be like this :
+```
+{
+'image 1 name' : image,
+'image 2 name' : image,
+etc...
 }
+```
+```
+image name have to be :
 
+1- unique name
+2- the name have to contain the prodcut ID + the number of photo (start counting from 1 )
+3- the name for the image it self doesnt matter, the important thing is the key in the dict
+3- supported types are 1- PNG, 2-JPG
+
+example:
+
+'photos' : {
+'productId-1.png': screensho1.png,
+'productId-2.png': sfsdf.png,
+'productId-3.png': sdffds.png,
+}
+```
+
+
+----------------------------------------
 product fields have to match its category fields
-category/subcategory/fields data  depends on user choices
+
+u can get product category fields by using category fields api 
+
+----------------------------------------
+```
+category/subcategory/fields data depends on user choices
+```
 
 returned data : 
+
 {
+
+'data' : {
+
 ‘user’:user id,
+
 category:category id,
-fields: product fields, Object
+
+fields: product fields, {
+  # for example :
+  'title': 'product 1',
+  'price': '100',
+  etc...
+}
+
 status: product status , by default its ‘approved’
+
 expire_date: product expire date,
-subcategory: subcategory id
+
+subcategory: subcategory id,
+
+photos: {
+'image 1 name' : 'image 1 url',
+'image 2 name' : 'image 2 url'
+etc....
+}
+},
+
 }
 
 http status : 201
