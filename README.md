@@ -148,7 +148,7 @@ returned data :
 category:category id,
 
 fields: product fields, {
-  # for example :
+  for example :
   'title': 'product 1',
   'price': '100',
   etc...
