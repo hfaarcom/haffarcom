@@ -39,3 +39,14 @@ def checkFile(name):
         if name == obj['Key']:
             return False
     return True
+
+
+def deleteFile(name):
+    try:
+        client.delete_object(
+            Bucket=bucket,
+            Key=name
+        )
+        return True
+    except:
+        return False

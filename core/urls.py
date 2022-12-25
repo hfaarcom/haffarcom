@@ -10,7 +10,9 @@ urlpatterns = [
     path('product/update/fields/', views.updateProdcutFields),
     path('product/update/status/', views.updateProductStatus),
     path('product/update/expire/', views.updateProductExpireDate),
+    path('product/update/photos/', views.updateProductPhotos),
     path('product/get/comments/', views.getProductComments),
+    path('product/comment/', views.Productcomment),
 
     path('user/login/', views.Login),
     path('user/register/', views.Register),
@@ -26,6 +28,4 @@ urlpatterns = [
 
 
     path('about/', views.AboutApi),
-
-    path('comment/', views.Mcomment)
 ]

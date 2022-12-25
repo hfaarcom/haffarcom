@@ -71,6 +71,54 @@ def addNewProduct(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['POST'])
+def updateProductPhotos(request):
+    try:
+        data = request.data
+        if {'product', 'photos'} <= set(data):
+            photos = data['photos']
+            product = Product.objects.get(id=data['product'])
+            errorPhotos = {}
+            if request.method == 'PUT':
+                Jphotos = json.loads(photos)
+                photosDict = {}
+
+                for k, v in Jphotos:
+                    check = checkFile(k)
+                    if check:
+                        url = uploadfile(v.file, k, 'png')
+                        photosDict[k] = url
+                    else:
+                        errorPhotos[k] = 'File With That Name Exists'
+
+                product.photos = photosDict
+                product.save()
+
+                return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos})
+
+            elif request.method == 'DELETE':
+                deletedPhotos = []
+                for i in photos:
+                    check = checkFile(i)
+
+                    if not check:
+                        d = deleteFile(i)
+                        if d:
+                            product.photos.pop(i)
+                            product.save()
+                            deletedPhotos.append(i)
+                        else:
+                            errorPhotos[i] = 'server error'
+                    else:
+                        errorPhotos[i] = 'photo doesnt exists'
+                return Response({'deletedPhotos': deletedPhotos, 'errorPhotos': errorPhotos}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def getUserProducts(request):
     try:
@@ -97,7 +145,7 @@ def getProductByCat(request):
         data = request.query_params
         if 'category' in data:
             # check data + serialize it
-            category = Category.objects.get(id=data['id'])
+            category = Category.objects.get(id=data['category'])
             products = Product.objects.filter(category=category)
 
             serializer = ProductsSerilizer(products, many=True)
@@ -320,7 +368,7 @@ def getProductComments(request):
 
 
 @api_view(['POST'])
-def Mcomment(request):
+def Productcomment(request):
     try:
         data = request.data
         if request.method == 'PUT':
