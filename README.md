@@ -169,7 +169,6 @@ etc....
 
 }
 
-http status : 201
 
 possible errors:
 
@@ -189,20 +188,7 @@ possible errors:
 	return {{'error': 'Product Fields Does not match with its category'}}
 ```
 
-—-
-{'error': 'bad request'}
-
-in this case check again the data that given : 
-it has to be : 
-```python
-{'user', 'category', 'fields', 'subcategory'}
-```
-user id
-category id
-subcategory id
-fields : object
-
-—-
+—------------------------------------
 
 
 2- get user products
