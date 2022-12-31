@@ -101,22 +101,22 @@ APPEND_SLASH = False
 
 DATABASES = {
     # railway postgress database
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'dgvZyDpofiQBMIFLjBUh',
-        'HOST': 'containers-us-west-189.railway.app',
-        'PORT': '6461',
-    }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'apps',
-    #     'USERNAME': 'apps',
-    #     'PASSWORD': 'omar191513',
-    #     'HOST': 'dg-3.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
-    #     'PORT': '5432',
+    #     'NAME': 'railway',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'dgvZyDpofiQBMIFLjBUh',
+    #     'HOST': 'containers-us-west-189.railway.app',
+    #     'PORT': '6461',
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'apps',
+        'USERNAME': 'apps',
+        'PASSWORD': 'omar191513',
+        'HOST': 'dg-3.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
 
 
