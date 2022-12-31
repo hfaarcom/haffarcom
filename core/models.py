@@ -23,8 +23,8 @@ ADS_STATUS = [
 ]
 
 
-def get_default():
-    return {'title': 'required', 'price': 'required'}
+def default_category_fields():
+    return {'title': 'text', 'price': 'number', 'photos': 'dict'}
 
 
 class Product(models.Model):
@@ -49,7 +49,7 @@ class Category(models.Model):
     photo = models.CharField(max_length=500, null=True, blank=True)
     status = models.CharField(
         choices=CATEGORY_STATUS, null=True, blank=True, max_length=100, default='approved')
-    fields = models.JSONField(null=True, default=get_default)
+    fields = models.JSONField(null=True, default=default_category_fields)
 
     def __str__(self):
         return self.name

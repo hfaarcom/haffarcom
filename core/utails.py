@@ -1,6 +1,23 @@
 import botocore
 import boto3
 from django.conf import settings
+import jwt
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+def getToken(token):
+    data = jwt.decode(
+        token, options={"verify_signature": False}, algorithms=['HS256'])
+    return data
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
 
 
 secret_key = settings.DJ_SECRET_KEY

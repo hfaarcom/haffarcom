@@ -9,16 +9,40 @@ from .serializers import *
 from .utails import *
 import json
 from datetime import date, timedelta
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['id'] = user.id
+        token['username'] = user.username
+        token['name'] = user.first_name
+        token['contact'] = user.last_name
+        token['email'] = user.email
+        # ...
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 # Products
+
+
 @api_view(['POST'])
 def addNewProduct(request):
     try:
         data = request.data
         if {'user', 'category', 'fields', 'subcategory', 'photos'} <= set(data):
             # check POST data
-            user = User.objects.get(id=data['user'])
+            token = getToken(data['user'])
+            user = User.objects.get(id=token.get('user_id'))
             category = Category.objects.get(id=data['category'])
             fields = data['fields']
             photos = data['photos']
@@ -124,12 +148,13 @@ def getUserProducts(request):
     try:
         data = request.query_params
         if {'user', 'status'} <= set(data):
+            token = getToken(data['user'])
             # get data + serialize it
             if data['status'] != 'all':
                 products = Product.objects.filter(
-                    user=data['user'], status=data['status'])
+                    user=token['id'], status=data['status'])
             else:
-                products = Product.objects.filter(user=data['user'])
+                products = Product.objects.filter(user=token['id'])
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -400,10 +425,10 @@ def Productcomment(request):
 # ADS
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def ADS(request):
     try:
-        data = request.data
+        data = request.query_params
         if 'api_key' in data:
             if data['api_key'] == settings.API_KEY:
                 # check data + serialize it
@@ -438,7 +463,8 @@ def Login(request):
                 # serialize + return
                 if auth is not None:
                     user = User.objects.get(username=username)
-                    return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email}, status=status.HTTP_202_ACCEPTED)
+                    token = get_tokens_for_user(user)
+                    return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email, 'token': token}, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
             else:
@@ -457,17 +483,17 @@ def updateUser(request):
             email = data['email']
             contact = data['contact']
             first_name = data['name']
-            id = data['user']
+            token = getToken(data['user'])
 
-            if User.objects.filter(id=id).exists():
-                user = User.objects.get(id=id)
+            if User.objects.filter(id=token['id']).exists():
+                user = User.objects.get(id=token['id'])
                 user.email = email
                 user.last_name = contact
                 user.first_name = first_name
 
                 user.save()
 
-                return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': id}, status=status.HTTP_201_CREATED)
+                return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['id'], 'token': token}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -494,7 +520,8 @@ def Register(request):
                 # Last Name is the contact Number ...
                 newUser.last_name = contact
                 newUser.save()
-                return Response({'username': username, 'name': first_name, 'contact': contact, 'user': newUser.id}, status=status.HTTP_201_CREATED)
+                token = get_tokens_for_user(newUser)
+                return Response({'username': username, 'name': first_name, 'contact': contact, 'user': newUser.id, 'token': token}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'username or email already exists'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -517,7 +544,8 @@ def ChangePassword(request):
                 newUser = User.objects.get(username=username)
                 newUser.set_password(data['newpassword'])
                 newUser.save()
-                return Response({'username': username, 'name': newUser.first_name, 'contact': newUser.last_name, 'user': newUser.id}, status=status.HTTP_202_ACCEPTED)
+                token = get_tokens_for_user(newUser)
+                return Response({'username': username, 'name': newUser.first_name, 'contact': newUser.last_name, 'user': newUser.id, 'token': token}, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
         else:

@@ -19,7 +19,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='About',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('app_name', models.CharField(max_length=100, null=True)),
                 ('icon_link', models.CharField(max_length=1000, null=True)),
                 ('privacy_policy', models.CharField(max_length=100000, null=True)),
@@ -27,19 +28,24 @@ class Migration(migrations.Migration):
                 ('contact_number', models.CharField(max_length=100, null=True)),
                 ('whatsapp_number', models.CharField(max_length=100, null=True)),
                 ('agree_text', models.CharField(max_length=100000, null=True)),
-                ('payment_info_text', models.CharField(max_length=100000, null=True)),
-                ('payment_info_link', models.CharField(blank=True, max_length=1000, null=True)),
+                ('payment_info_text', models.CharField(
+                    max_length=100000, null=True)),
+                ('payment_info_link', models.CharField(
+                    blank=True, max_length=1000, null=True)),
                 ('product_expire_days', models.IntegerField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='AD',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(blank=True, max_length=100, null=True)),
-                ('status', models.CharField(blank=True, choices=[('approved', 'approved'), ('disabled', 'disabled')], max_length=100, null=True)),
+                ('status', models.CharField(blank=True, choices=[
+                 ('approved', 'approved'), ('disabled', 'disabled')], max_length=100, null=True)),
                 ('photo', models.CharField(blank=True, max_length=500, null=True)),
-                ('date', models.DateTimeField(blank=True, default=datetime.datetime.now)),
+                ('date', models.DateTimeField(
+                    blank=True, default=datetime.datetime.now)),
                 ('expire_date', models.DateField(blank=True, null=True)),
                 ('contact', models.CharField(max_length=100, null=True)),
             ],
@@ -47,43 +53,57 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(blank=True, max_length=500, null=True)),
                 ('photo', models.CharField(blank=True, max_length=500, null=True)),
-                ('status', models.CharField(blank=True, choices=[('approved', 'approved'), ('disabled', 'disabled')], default='approved', max_length=100, null=True)),
-                ('fields', models.JSONField(default=core.models.get_default, null=True)),
+                ('status', models.CharField(blank=True, choices=[('approved', 'approved'), (
+                    'disabled', 'disabled')], default='approved', max_length=100, null=True)),
+                ('fields', models.JSONField(
+                    default=core.models.default_category_fields, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='SubCategory',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(blank=True, max_length=1000, null=True)),
                 ('photo', models.CharField(blank=True, max_length=1000, null=True)),
-                ('mainCategory', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='core.category')),
+                ('mainCategory', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='core.category')),
             ],
         ),
         migrations.CreateModel(
             name='Product',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateField(auto_now_add=True, null=True)),
                 ('expire_date', models.DateField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('approved', 'approved'), ('declined', 'declined'), ('pending', 'pending'), ('sold', 'sold'), ('Deleted', 'Deleted')], max_length=100, null=True)),
+                ('status', models.CharField(choices=[('approved', 'approved'), ('declined', 'declined'), (
+                    'pending', 'pending'), ('sold', 'sold'), ('Deleted', 'Deleted')], max_length=100, null=True)),
                 ('photos', models.JSONField()),
                 ('fields', models.JSONField()),
-                ('category', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='core.category')),
-                ('subCategory', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='core.subcategory')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('category', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='core.category')),
+                ('subCategory', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='core.subcategory')),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.CharField(blank=True, max_length=500, null=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.product')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('description', models.CharField(
+                    blank=True, max_length=500, null=True)),
+                ('product', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='core.product')),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
