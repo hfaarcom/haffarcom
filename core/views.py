@@ -19,11 +19,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
-        token['id'] = user.id
-        token['username'] = user.username
-        token['name'] = user.first_name
-        token['contact'] = user.last_name
-        token['email'] = user.email
+        token['user_id'] = user.id
         # ...
 
         return token
@@ -152,9 +148,9 @@ def getUserProducts(request):
             # get data + serialize it
             if data['status'] != 'all':
                 products = Product.objects.filter(
-                    user=token['id'], status=data['status'])
+                    user=token['user_id'], status=data['status'])
             else:
-                products = Product.objects.filter(user=token['id'])
+                products = Product.objects.filter(user=token['user_id'])
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -485,15 +481,15 @@ def updateUser(request):
             first_name = data['name']
             token = getToken(data['user'])
 
-            if User.objects.filter(id=token['id']).exists():
-                user = User.objects.get(id=token['id'])
+            if User.objects.filter(id=token['user_id']).exists():
+                user = User.objects.get(id=token['user_id'])
                 user.email = email
                 user.last_name = contact
                 user.first_name = first_name
 
                 user.save()
 
-                return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['id'], 'token': token}, status=status.HTTP_201_CREATED)
+                return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': token}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
         else:
