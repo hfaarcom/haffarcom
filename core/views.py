@@ -183,7 +183,7 @@ def getProductBySubCat(request):
         data = request.query_params
         if 'subcategory' in data:
             # check data + serialize it
-            category = SubCategory.objects.get(id=data['id'])
+            category = SubCategory.objects.get(id=data['subcategory'])
             products = Product.objects.filter(
                 subCategory=category)
 
