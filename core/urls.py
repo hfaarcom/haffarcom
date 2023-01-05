@@ -24,6 +24,7 @@ urlpatterns = [
     path('user/register', views.Register),
     path('user/password/change', views.ChangePassword),
     path('user/update', views.updateUser),
+    path('user/get/details', views.getUserDetails),
 
     path('category/get/fields', views.getCategoryFields),
     path('category/get/all', views.getCategories),

@@ -545,6 +545,19 @@ def ChangePassword(request):
 
 
 @api_view(['GET'])
+def getUserDetails(request):
+    try:
+        data = request.query_params
+        if 'token' in data:
+            token = getToken(data['token'])
+            user = User.objects.get(user=token['user_id'])
+            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': token}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
 def AboutApi(request):
     try:
         # return specific data from database
