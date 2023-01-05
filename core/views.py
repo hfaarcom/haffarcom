@@ -559,7 +559,7 @@ def ChangePassword(request):
 def getUserDetails(request):
     try:
         data = request.query_params
-        if 'user' in data:
+        if 'token' in data:
             token = getToken(data['token'])
             user = User.objects.get(id=token['user_id'])
             return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': token}, status=status.HTTP_202_ACCEPTED)
