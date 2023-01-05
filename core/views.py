@@ -272,7 +272,7 @@ def updateProductExpireDate(request):
 @api_view(['GET'])
 def getAllProducts(request):
     try:
-        products = Product.objects.all().order_by('id')
+        products = Product.objects.all().order_by('-id')
         serializer = ProductsSerilizer(products, many=True)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
