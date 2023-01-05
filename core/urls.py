@@ -19,6 +19,7 @@ urlpatterns = [
     path('product/update/photos', views.updateProductPhotos),
     path('product/get/comments', views.getProductComments),
     path('product/comment', views.Productcomment),
+    path('product/get/all', views.getAllProducts),
 
     path('user/login', views.Login),
     path('user/register', views.Register),
