@@ -257,15 +257,12 @@ def updateProductStatus(request):
 def updateProductExpireDate(request):
     try:
         data = request.data
-        if {'product', 'api_key'} <= set(data):
-            if data['api_key'] == settings.API_KEY:
-                product = Product.objects.get(id=data['product'])
-                product.expire_date = date.today(
-                ) + timedelta(days=About.objects.get(id=1).product_expire_days)
-                product.save()
-                return Response({'updated': product.expire_date}, status=status.HTTP_202_ACCEPTED)
-            else:
-                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+        if {'product'} <= set(data):
+            product = Product.objects.get(id=data['product'])
+            product.expire_date = date.today(
+            ) + timedelta(days=About.objects.get(id=1).product_expire_days)
+            product.save()
+            return Response({'updated': product.expire_date}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
