@@ -242,14 +242,11 @@ def updateProdcutFields(request):
 def updateProductStatus(request):
     try:
         data = request.data
-        if {'status', 'api_key', 'product'} <= set(data):
-            if data['api_key'] == settings.API_KEY:
-                product = Product.objects.get(id=data['product'])
-                product.status = data['status']
-                product.save()
-                return Response({'updated': product.status}, status=status.HTTP_202_ACCEPTED)
-            else:
-                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+        if {'status', 'product'} <= set(data):
+            product = Product.objects.get(id=data['product'])
+            product.status = data['status']
+            product.save()
+            return Response({'updated': product.status}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
