@@ -269,7 +269,18 @@ def updateProductExpireDate(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def getAllProducts(request):
+    try:
+        products = Product.objects.all().order_by('id')
+        serializer = ProductsSerilizer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 # category
+
+
 @api_view(['GET'])
 def getCategoryFields(request):
     try:
