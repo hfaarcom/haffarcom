@@ -402,14 +402,15 @@ def getProductComments(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['PUT', 'DELETE'])
 def Productcomment(request):
     try:
         data = request.data
         if request.method == 'PUT':
-            if {'user', 'description', 'product'} <= set(data):
+            if {'token', 'description', 'product'} <= set(data):
                 # check data + serialize it
-                user = User.objects.get(id=data['user'])
+                token = getToken(data['token'])
+                user = User.objects.get(id=token['user_id'])
                 product = Product.objects.get(id=data['product'])
                 description = data['description']
 
