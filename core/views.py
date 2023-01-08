@@ -52,13 +52,13 @@ def addNewProduct(request):
             photosDict = {}
             errorPhotos = {}
 
-            for k, v in Jphotos:
-                check = checkFile(k)
+            for v in photos:
+                check = checkFile(v.name)
                 if check:
-                    url = uploadfile(v.file, k, 'png')
-                    photosDict[k] = url
+                    url = uploadfile(v.file, v.name, 'png')
+                    photosDict[v.name] = url
                 else:
-                    errorPhotos[k] = 'File With That Name Exists'
+                    errorPhotos[v.name] = 'File With That Name Exists'
 
             # check Product Fields
             if Jfields.keys() == category.fields.keys():
@@ -167,7 +167,8 @@ def getProductByCat(request):
         if 'category' in data:
             # check data + serialize it
             category = Category.objects.get(id=data['category'])
-            products = Product.objects.filter(category=category)
+            products = Product.objects.filter(
+                category=category, status='approved')
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -185,7 +186,7 @@ def getProductBySubCat(request):
             # check data + serialize it
             category = SubCategory.objects.get(id=data['subcategory'])
             products = Product.objects.filter(
-                subCategory=category)
+                subCategory=category, status='approved')
 
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -272,7 +273,7 @@ def updateProductExpireDate(request):
 @api_view(['GET'])
 def getAllProducts(request):
     try:
-        products = Product.objects.all().order_by('-id')
+        products = Product.objects.filter(status='approved').order_by('-id')
         serializer = ProductsSerilizer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
@@ -433,7 +434,7 @@ def ADS(request):
         if 'api_key' in data:
             if data['api_key'] == settings.API_KEY:
                 # check data + serialize it
-                ads = AD.objects.all()
+                ads = AD.objects.filter(status='approved')
                 serializer = ADSerializer(ads, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
