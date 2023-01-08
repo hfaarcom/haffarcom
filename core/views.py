@@ -35,30 +35,38 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def addNewProduct(request):
     try:
         data = request.data
-        if {'user', 'category', 'fields', 'subcategory', 'photos'} <= set(data):
+        if {'user', 'category', 'fields', 'subcategory', 'photosNum'} <= set(data):
             # check POST data
             token = getToken(data['user'])
             user = User.objects.get(id=token.get('user_id'))
             category = Category.objects.get(id=data['category'])
             fields = data['fields']
-            photos = data['photos']
+            photosNum = data['photosNum']
             subcategory = SubCategory.objects.get(id=data['subcategory'])
-            expire_date = date.today() + timedelta(days=About.objects.get(id=1).product_expire_days)
+            expire_date = date.today() + timedelta(days=1)
 
             # convert STR to DICT/JSON
             Jfields = json.loads(fields)
-            Jphotos = json.loads(photos)
 
             photosDict = {}
             errorPhotos = {}
 
-            for v in photos:
-                check = checkFile(v.name)
-                if check:
-                    url = uploadfile(v.file, v.name, 'png')
-                    photosDict[v.name] = url
-                else:
-                    errorPhotos[v.name] = 'File With That Name Exists'
+            if photosNum != 0:
+
+                for i in range(int(photosNum)):
+                    requestPhotoName = f'photo-{i}'
+
+                    prodctId = Product.objects.all().count() + 1
+
+                    uploadingName = f'{prodctId}-{i}'
+
+                    check = checkFile(uploadingName)
+                    if check:
+                        url = uploadfile(
+                            request.data[requestPhotoName], uploadingName, 'png')
+                        photosDict[requestPhotoName] = url
+                    else:
+                        errorPhotos[requestPhotoName] = 'File With That Name Exists'
 
             # check Product Fields
             if Jfields.keys() == category.fields.keys():

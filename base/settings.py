@@ -30,7 +30,7 @@ API_KEY = '5p3whPvbCHDqKRqxLKhzLOU2dT9B2Z'
 
 DJ_SECRET_KEY = 'OsuMhWY/TkZDRJQ2KBIUEtI6dx+RevllbckPYyez1qw'
 DJ_PUBLIC_KEY = 'DO00ELXFPFGXPC7PURUP'
-DJ_BUCKET_NAME = 'bucket'
+DJ_BUCKET_NAME = 'haffar'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
