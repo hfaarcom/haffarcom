@@ -19,6 +19,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+        depth = 1
 
 
 class CategorySerializer(serializers.ModelSerializer):
