@@ -82,6 +82,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=500, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.now)
 
 
 class About(models.Model):
