@@ -38,3 +38,10 @@ class AboutSerializer(serializers.ModelSerializer):
     class Meta:
         model = About
         fields = '__all__'
+
+
+class ReplaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentReplay
+        fields = '__all__'
+        depth = 1

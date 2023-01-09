@@ -114,7 +114,7 @@ DATABASES = {
         'NAME': 'apps',
         'USERNAME': 'apps',
         'PASSWORD': 'omar191513',
-        'HOST': 'dg-3.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
+        'HOST': 'dg-4.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

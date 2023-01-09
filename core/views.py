@@ -433,6 +433,37 @@ def Productcomment(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['PUT', 'DELETE'])
+def CommentReplayView(request):
+    try:
+        data = request.data
+        if request.method == 'PUT':
+            if {'user', 'product', 'comment', 'description'} <= set(data):
+                token = getToken(data['user'])
+                user = User.objects.get(token['user_id'])
+                product = Product.objects.get(id=data['product'])
+                comment = Comment.objects.get(id=data['comment'])
+
+                replay = CommentReplay.objects.create(
+                    user=user,
+                    product=product,
+                    description=data['description']
+                )
+                comment.replaies.add(replay)
+                comment.save()
+                serializer = ReplaySerializer(replay, many=False)
+
+                return Response(serializer.data)
+
+        elif request.method == 'DELETE':
+            if {'replay'} <= set(data):
+                replay = CommentReplay.objects.get(id=data['replay'])
+                replay.delete()
+                return Response({'deleted'})
+    except Exception as e:
+        return Response({'error': str(e)})
+
 # ADS
 
 

@@ -20,7 +20,7 @@ urlpatterns = [
     path('product/get/comments', views.getProductComments),
     path('product/comment', views.Productcomment),
     path('product/get/all', views.getAllProducts),
-
+    path('product/comment/replay', views.CommentReplayView),
     path('user/login', views.Login),
     path('user/register', views.Register),
     path('user/password/change', views.ChangePassword),
