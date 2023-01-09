@@ -111,7 +111,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'apps',
+        'NAME': 'omar191513',
         'USERNAME': 'apps',
         'PASSWORD': 'omar191513',
         'HOST': 'dg-4.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
