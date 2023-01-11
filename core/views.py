@@ -104,29 +104,34 @@ def updateProductPhotos(request):
     try:
         data = request.data
         if {'product', 'photos'} <= set(data):
-            photos = data['photos']
+            photosNum = data['photosNum']
             product = Product.objects.get(id=data['product'])
             errorPhotos = {}
             if request.method == 'PUT':
-                Jphotos = json.loads(photos)
+
                 photosDict = {}
+                errorPhotos = {}
 
-                for k, v in Jphotos:
-                    check = checkFile(k)
-                    if check:
-                        url = uploadfile(v.file, k, 'png')
-                        photosDict[k] = url
-                    else:
-                        errorPhotos[k] = 'File With That Name Exists'
+                if photosNum != 0:
+                    productPhotos = len(product.photos)
+                    for i in range(int(photosNum)):
+                        requestPhotoName = f'photo-{productPhotos + i}'
 
-                product.photos = photosDict
-                product.save()
+                        uploadingName = f'{product.id}-{i}'
+
+                        if checkFile(uploadingName):
+                            url = uploadfile(
+                                request.data[requestPhotoName], uploadingName, 'png')
+                            photosDict[requestPhotoName] = url
+                        else:
+                            errorPhotos[requestPhotoName] = 'File With That Name Exists'
 
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos})
 
             elif request.method == 'DELETE':
                 deletedPhotos = []
-                for i in photos:
+                photosToDelete = data.delete
+                for i in photosToDelete:
                     check = checkFile(i)
 
                     if not check:
@@ -452,7 +457,7 @@ def CommentReplayView(request):
                 )
                 comment.replaies.add(replay)
                 comment.save()
-                serializer = ReplaySerializer(replay, many=False)
+                serializer = CommentSerializer(comment, many=False)
 
                 return Response(serializer.data)
 

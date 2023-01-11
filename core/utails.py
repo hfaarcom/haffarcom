@@ -52,10 +52,13 @@ def uploadfile(file, name, type):
 
 def checkFile(name):
     response = client.list_objects(Bucket=bucket)
-    for obj in response['Contents']:
-        if name == obj['Key']:
-            return False
-    return True
+    if 'Contents' in response:
+        for obj in response['Contents']:
+            if name == obj['Key']:
+                return False
+        return True
+    else:
+        return True
 
 
 def deleteFile(name):
