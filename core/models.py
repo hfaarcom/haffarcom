@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+import datetime
 from django.urls import reverse
 
 
@@ -73,7 +73,7 @@ class AD(models.Model):
     status = models.CharField(
         choices=ADS_STATUS, null=True, blank=True, max_length=100)
     photo = models.CharField(max_length=500, null=True, blank=True)
-    date = models.DateTimeField(default=datetime.now, blank=True)
+    date = models.DateTimeField(default=datetime.date.today, blank=True)
     expire_date = models.DateField(null=True, blank=True)
     contact = models.CharField(max_length=100, null=True)
 
@@ -82,7 +82,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=500, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.now)
+    date = models.DateField(default=datetime.date.today)
     replaies = models.ManyToManyField('CommentReplay')
 
 
@@ -90,7 +90,7 @@ class CommentReplay(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=500, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.now)
+    date = models.DateField(default=datetime.date.today)
 
 
 class About(models.Model):
