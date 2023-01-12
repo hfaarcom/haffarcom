@@ -446,7 +446,7 @@ def CommentReplayView(request):
         if request.method == 'PUT':
             if {'user', 'product', 'comment', 'description'} <= set(data):
                 token = getToken(data['user'])
-                user = User.objects.get(token['user_id'])
+                user = User.objects.get(id=token['user_id'])
                 product = Product.objects.get(id=data['product'])
                 comment = Comment.objects.get(id=data['comment'])
 
