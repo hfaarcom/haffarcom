@@ -24,7 +24,7 @@ ADS_STATUS = [
 
 
 def default_category_fields():
-    return {'title': 'text', 'price': 'number'}
+    return {'title': 'text', 'price': 'number', 'description': 'text'}
 
 
 class Product(models.Model):
@@ -105,3 +105,9 @@ class About(models.Model):
     payment_info_link = models.CharField(
         max_length=1000, null=True, blank=True)
     product_expire_days = models.IntegerField(null=True, blank=True)
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=1000)
+    date = models.DateField(default=datetime.date.today)

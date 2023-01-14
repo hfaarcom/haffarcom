@@ -43,7 +43,7 @@ def addNewProduct(request):
             fields = data['fields']
             photosNum = data['photosNum']
             subcategory = SubCategory.objects.get(id=data['subcategory'])
-            expire_date = date.today() + timedelta(days=1)
+            expire_date = date.today() + timedelta(days=About.objects.get(id=1).product_expire_days)
 
             # convert STR to DICT/JSON
             Jfields = json.loads(fields)
@@ -624,3 +624,50 @@ def AboutApi(request):
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+def UserNotifications(request):
+    try:
+        if request.method == 'GET':
+            data = request.query_params
+            if 'user' in data:
+                token = getToken(data['user'])
+                user = User.objects.get(id=token['user_id'])
+                noti = Notification.objects.filter(user=user)
+                serializer = NotificationSerializer(noti, many=True)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            data = request.data
+            if 'id' in data:
+                noti = Notification.objects.get(id=data['id'])
+                noti.delete()
+                return Response({'deleted'})
+            elif 'user' in data:
+                token = getToken(data['user'])
+                user = User.objects.get(id=token['user_id'])
+                noti = Notification.objects.filter(user=user)
+                noti.delete()
+                return Response({'cleared'}, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'POST':
+            data = request.data
+            if {'user', 'body'} <= set(data):
+                token = getToken(data['user'])
+                user = User.objects.get(id=token['user_id'])
+                body = data['body']
+
+                noti = Notification.objects.create(
+                    user=user,
+                    body=body
+                )
+
+                serializer = NotificationSerializer(noti, many=False)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
