@@ -111,11 +111,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'omar191513',
-        'USERNAME': 'apps',
-        'PASSWORD': 'omar191513',
-        'HOST': 'dg-4.c70ljiexmnqa.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'eEAhzd5eTlx5NIer69GW',
+        'HOST': 'containers-us-west-193.railway.app',
+        'PORT': '7823',
     }
 }
 
