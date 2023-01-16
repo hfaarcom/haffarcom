@@ -84,7 +84,7 @@ def addNewProduct(request):
                 )
                 Notification.objects.create(
                     user=user,
-                    body='Product Has Created succesfully Abood'
+                    body='Product Has Created succesfully.'
                 )
 
                 # serialize data
