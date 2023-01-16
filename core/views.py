@@ -82,6 +82,10 @@ def addNewProduct(request):
                     subCategory=subcategory,
                     photos=photosDict
                 )
+                Notification.objects.create(
+                    user=user,
+                    body='Product Has Created succesfully Abood'
+                )
 
                 # serialize data
                 serializer = ProductsSerilizer(newProduct, many=False)
