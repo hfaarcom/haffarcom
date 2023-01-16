@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
-    path('user/notifications', views.UserNotifications)
+    path('user/notifications', views.UserNotifications),
+
+    path('test', views.Test)
 
 ]

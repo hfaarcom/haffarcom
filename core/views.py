@@ -56,9 +56,10 @@ def addNewProduct(request):
                 for i in range(int(photosNum)):
                     requestPhotoName = f'photo-{i}'
 
-                    prodctId = Product.objects.all().count() + 1
+                    prodctId = Product.objects.all().order_by(
+                        'id').reverse()[0]
 
-                    uploadingName = f'{prodctId}-{i}'
+                    uploadingName = f'{prodctId.id + 1}-{i}'
 
                     check = checkFile(uploadingName)
                     if check:
@@ -671,3 +672,10 @@ def UserNotifications(request):
                 return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def Test(request):
+    p = Product.objects.all().order_by('id').reverse()[0]
+    print(p)
+    return Response({'data': str(p.id)})
