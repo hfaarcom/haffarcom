@@ -561,7 +561,7 @@ def updateUser(request):
 def Register(request):
     try:
         data = request.data
-        if {'username', 'password', 'name', 'contact'} <= set(data):
+        if {'username', 'name', 'contact'} <= set(data):
             # check data + serialize it
             username = data['username']
             first_name = data['name']
