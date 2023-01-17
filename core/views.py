@@ -53,7 +53,7 @@ def addNewProduct(request):
 
             if Jfields.keys() == category.fields.keys():
                 about = About.objects.get(id=1)
-                about.products_num + 1
+                about.products_num = + 1
                 about.save()
 
                 if photosNum != 0:
