@@ -62,7 +62,7 @@ def addNewProduct(request):
 
                         prodctId = about.products_num
 
-                        uploadingName = f'{prodctId.id + 1}-{i}'
+                        uploadingName = f'{prodctId + 1}-{i}'
 
                         check = checkFile(uploadingName)
                         if check:
