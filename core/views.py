@@ -51,26 +51,28 @@ def addNewProduct(request):
             photosDict = {}
             errorPhotos = {}
 
-            if photosNum != 0:
+            if Jfields.keys() == category.fields.keys():
+                about = About.objects.get(id=1)
+                about.products_num + 1
+                about.save()
 
-                for i in range(int(photosNum)):
-                    requestPhotoName = f'photo-{i}'
+                if photosNum != 0:
+                    for i in range(int(photosNum)):
+                        requestPhotoName = f'photo-{i}'
 
-                    prodctId = Product.objects.all().order_by(
-                        'id').reverse()[0]
+                        prodctId = about.products_num
 
-                    uploadingName = f'{prodctId.id + 1}-{i}'
+                        uploadingName = f'{prodctId.id + 1}-{i}'
 
-                    check = checkFile(uploadingName)
-                    if check:
-                        url = uploadfile(
-                            request.data[requestPhotoName], uploadingName, 'png')
-                        photosDict[requestPhotoName] = url
-                    else:
-                        errorPhotos[requestPhotoName] = 'File With That Name Exists'
+                        check = checkFile(uploadingName)
+                        if check:
+                            url = uploadfile(
+                                request.data[requestPhotoName], uploadingName, 'png')
+                            photosDict[requestPhotoName] = url
+                        else:
+                            errorPhotos[requestPhotoName] = 'File With That Name Exists'
 
             # check Product Fields
-            if Jfields.keys() == category.fields.keys():
 
                 # create New Product
                 newProduct = Product.objects.create(

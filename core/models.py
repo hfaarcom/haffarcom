@@ -105,6 +105,7 @@ class About(models.Model):
     payment_info_link = models.CharField(
         max_length=1000, null=True, blank=True)
     product_expire_days = models.IntegerField(null=True, blank=True)
+    products_num = models.IntegerField(default=0)
 
 
 class Notification(models.Model):
