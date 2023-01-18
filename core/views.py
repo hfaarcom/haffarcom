@@ -533,24 +533,24 @@ def Login(request):
 def updateUser(request):
     try:
         data = request.data
-        if {'email', 'contact', 'name', 'user'} <= set(data):
-            email = data['email']
-            contact = data['contact']
-            first_name = data['name']
-            token = getToken(data['user'])
+        email = data['email']
+        contact = data['contact']
+        first_name = data['name']
+        token = getToken(data['user'])
 
-            if User.objects.filter(id=token['user_id']).exists():
-                user = User.objects.get(id=token['user_id'])
+        if User.objects.filter(id=token['user_id']).exists():
+            user = User.objects.get(id=token['user_id'])
+            if email:
                 user.email = email
+            if contact:
                 user.last_name = contact
+            if first_name:
                 user.first_name = first_name
-                user.save()
+            user.save()
 
-                return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': token}, status=status.HTTP_201_CREATED)
-            else:
-                return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': token}, status=status.HTTP_201_CREATED)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
