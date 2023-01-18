@@ -60,7 +60,7 @@ def addNewProduct(request):
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{i}'
 
-                        prodctId = about.products_num
+                        prodctId = GenerateUUID()
 
                         uploadingName = f'{prodctId}-{i}'
 
@@ -544,7 +544,6 @@ def updateUser(request):
                 user.email = email
                 user.last_name = contact
                 user.first_name = first_name
-
                 user.save()
 
                 return Response({'username': user.username, 'email': email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': token}, status=status.HTTP_201_CREATED)
@@ -561,7 +560,7 @@ def updateUser(request):
 def Register(request):
     try:
         data = request.data
-        if {'username', 'name', 'contact'} <= set(data):
+        if {'username', 'password', 'name', 'contact'} <= set(data):
             # check data + serialize it
             username = data['username']
             first_name = data['name']

@@ -3,6 +3,12 @@ import boto3
 from django.conf import settings
 import jwt
 from rest_framework_simplejwt.tokens import RefreshToken
+import secrets
+import string
+
+
+def GenerateUUID():
+    return ''.join(secrets.choice(string.ascii_letters + string.digits) for i in range(10))
 
 
 def getToken(token):
