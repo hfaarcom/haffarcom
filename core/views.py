@@ -533,18 +533,18 @@ def Login(request):
 def updateUser(request):
     try:
         data = request.data
-        email = data['email']
-        contact = data['contact']
-        first_name = data['name']
         token = getToken(data['user'])
 
         if User.objects.filter(id=token['user_id']).exists():
             user = User.objects.get(id=token['user_id'])
-            if email:
+            if 'email' in data:
+                email = data['email']
                 user.email = email
-            if contact:
+            if 'contact' in data:
+                contact = data['contact']
                 user.last_name = contact
-            if first_name:
+            if 'first_name' in data:
+                first_name = data['name']
                 user.first_name = first_name
             user.save()
 
