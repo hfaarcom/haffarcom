@@ -26,6 +26,7 @@ urlpatterns = [
     path('user/password/change', views.ChangePassword),
     path('user/update', views.updateUser),
     path('user/get/details', views.getUserDetails),
+    path('user/notifications', views.UserNotifications),
 
     path('category/get/fields', views.getCategoryFields),
     path('category/get/all', views.getCategories),
@@ -40,9 +41,5 @@ urlpatterns = [
     path('ads', views.ADS),
 
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-
-    path('user/notifications', views.UserNotifications),
-
-    path('test', views.Test)
 
 ]

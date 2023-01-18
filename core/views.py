@@ -676,10 +676,3 @@ def UserNotifications(request):
                 return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def Test(request):
-    p = Product.objects.all().order_by('id').reverse()[0]
-    print(p)
-    return Response({'data': str(p.id)})
