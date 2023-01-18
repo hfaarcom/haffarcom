@@ -81,7 +81,8 @@ def addNewProduct(request):
                     status='approved',
                     expire_date=expire_date,
                     subCategory=subcategory,
-                    photos=photosDict
+                    photos=photosDict,
+                    uuid=prodctId
                 )
                 Notification.objects.create(
                     user=user,
@@ -112,7 +113,6 @@ def updateProductPhotos(request):
         if {'product', 'photos'} <= set(data):
             photosNum = data['photosNum']
             product = Product.objects.get(id=data['product'])
-            productId = GenerateUUID()
             errorPhotos = {}
             if request.method == 'PUT':
 
@@ -120,11 +120,15 @@ def updateProductPhotos(request):
                 errorPhotos = {}
 
                 if photosNum != 0:
-                    productPhotos = len(product.photos)
+                    productPhotosNum = len(product.photos)
                     for i in range(int(photosNum)):
-                        requestPhotoName = f'photo-{productPhotos + i}'
 
-                        uploadingName = f'{productId.id}-{i}'
+                        requestPhotoName = f'photo-{i}'
+
+                        if i == 0:
+                            uploadingName = f'{product.uudi}-{productPhotosNum + 1}'
+                        else:
+                            uploadingName = f'{product.uudi}-{productPhotosNum + i}'
 
                         if checkFile(uploadingName):
                             url = uploadfile(
@@ -137,12 +141,12 @@ def updateProductPhotos(request):
 
             elif request.method == 'DELETE':
                 deletedPhotos = []
-                photosToDelete = data.delete
+                photosToDelete = data['photos']
                 for i in photosToDelete:
-                    check = checkFile(i)
-
+                    photoName = i.rsplit('/', 1)
+                    check = checkFile(photoName)
                     if not check:
-                        d = deleteFile(i)
+                        d = deleteFile(photoName)
                         if d:
                             product.photos.pop(i)
                             product.save()

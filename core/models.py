@@ -39,6 +39,7 @@ class Product(models.Model):
         'SubCategory', on_delete=models.CASCADE, null=True)
     photos = models.JSONField()
     fields = models.JSONField()
+    uudi = models.CharField(max_length=100, null=True)
 
     def get_absolute_url(self):
         return reverse('edit_product', kwargs={'pk': self.pk})
