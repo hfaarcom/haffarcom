@@ -549,7 +549,7 @@ def updateUser(request):
                 user.first_name = first_name
                 user.save()
 
-                return Response({'username': user.username, 'email': user.email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': get_tokens_for_user(token['user_id'])}, status=status.HTTP_201_CREATED)
+                return Response({'username': user.username, 'email': user.email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': get_tokens_for_user(user)}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -617,7 +617,7 @@ def getUserDetails(request):
         if 'token' in data:
             token = getToken(data['token'])
             user = User.objects.get(id=token['user_id'])
-            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': token, 'email': user.email}, status=status.HTTP_202_ACCEPTED)
+            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
