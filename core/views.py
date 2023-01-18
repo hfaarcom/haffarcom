@@ -57,10 +57,9 @@ def addNewProduct(request):
                 about.save()
 
                 if photosNum != 0:
+                    prodctId = GenerateUUID()
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{i}'
-
-                        prodctId = GenerateUUID()
 
                         uploadingName = f'{prodctId}-{i}'
 
