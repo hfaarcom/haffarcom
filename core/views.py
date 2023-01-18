@@ -112,6 +112,7 @@ def updateProductPhotos(request):
         if {'product', 'photos'} <= set(data):
             photosNum = data['photosNum']
             product = Product.objects.get(id=data['product'])
+            productId = GenerateUUID()
             errorPhotos = {}
             if request.method == 'PUT':
 
@@ -123,7 +124,7 @@ def updateProductPhotos(request):
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{productPhotos + i}'
 
-                        uploadingName = f'{product.id}-{i}'
+                        uploadingName = f'{productId.id}-{i}'
 
                         if checkFile(uploadingName):
                             url = uploadfile(
@@ -613,7 +614,7 @@ def getUserDetails(request):
         if 'token' in data:
             token = getToken(data['token'])
             user = User.objects.get(id=token['user_id'])
-            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': token}, status=status.HTTP_202_ACCEPTED)
+            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': token, 'email': user.email}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
