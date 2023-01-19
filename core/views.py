@@ -123,7 +123,7 @@ def updateProductPhotos(request):
 
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
-                    for i in range(1,int(photosNum)):
+                    for i in range(1, int(photosNum)):
 
                         requestPhotoName = f'photo-{i}'
 
@@ -156,13 +156,6 @@ def updateProductPhotos(request):
                             product.photos.pop(f'photo-{i}')
                             product.save()
                             deletedPhotos.append(i)
-
-                            dist = {}
-                            for k, v in product.photos:
-                                for i in range(int(len(product.photos))):
-                                    dist[f'photo-{i}'] = v
-                            product.photos = dist
-                            product.save()
                         else:
                             errorPhotos[i] = 'server error'
                     else:
