@@ -138,8 +138,10 @@ def updateProductPhotos(request):
                             photosDict[requestPhotoName] = url
                         else:
                             errorPhotos[requestPhotoName] = 'File With That Name Exists'
-                    product.photos += photosDict
-                    print(product.photos, photosDict)
+                    dest = {}
+                    dest.update(product.photos)
+                    dest.update(photosDict)
+                    product.photos = dest
                     product.save()
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
