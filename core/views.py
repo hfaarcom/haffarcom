@@ -108,7 +108,7 @@ def addNewProduct(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT', 'DELETE '])
+@api_view(['PUT', 'DELETE'])
 def updateProductPhotos(request):
     try:
         data = request.data
