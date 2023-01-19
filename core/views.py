@@ -140,7 +140,12 @@ def updateProductPhotos(request):
                     dest = {}
                     dest.update(product.photos)
                     dest.update(photosDict)
-                    product.photos = dest
+
+                    dist = {}
+                    for k, v in product.photos:
+                        for i in range(int(len(dest))):
+                            dist[f'photo-{i}'] = v
+                    product.photos = dist
                     product.save()
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
@@ -156,6 +161,13 @@ def updateProductPhotos(request):
                             product.photos.pop(f'photo-{i}')
                             product.save()
                             deletedPhotos.append(i)
+
+                            dist = {}
+                            for k, v in product.photos:
+                                for i in range(int(len(product.photos))):
+                                    dist[f'photo-{i}'] = v
+                            product.photos = dist
+                            product.save()
                         else:
                             errorPhotos[i] = 'server error'
                     else:
