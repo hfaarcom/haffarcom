@@ -108,7 +108,7 @@ def addNewProduct(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT', 'DELETE'])
+@api_view(['PUT', 'DELETE '])
 def updateProductPhotos(request):
     try:
         data = request.data
@@ -145,7 +145,7 @@ def updateProductPhotos(request):
                 deletedPhotos = []
                 photosToDelete = data['photos']
                 for i in photosToDelete:
-                    photoName = i.rsplit('/', 1)
+                    photoName = i.rsplit('/', 1)[1]
                     check = checkFile(photoName)
                     if not check:
                         d = deleteFile(photoName)
