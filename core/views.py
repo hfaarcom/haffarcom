@@ -112,7 +112,7 @@ def addNewProduct(request):
 def updateProductPhotos(request):
     try:
         data = request.data
-        if {'product', 'photos'} <= set(data):
+        if {'product', 'photosNum'} <= set(data):
             photosNum = data['photosNum']
             product = Product.objects.get(id=data['product'])
             errorPhotos = {}
@@ -143,14 +143,14 @@ def updateProductPhotos(request):
 
             elif request.method == 'DELETE':
                 deletedPhotos = []
-                for i in request.data.getlist('photos'):
-                    photoName = i.rsplit('/', 1)[1]
-                    print(photoName)
+                for i in range(int(data['photosNum'])):
+                    photo = data[f'photo-{i}']
+                    photoName = photo.rsplit('/', 1)[1]
                     check = checkFile(photoName)
                     if not check:
                         d = deleteFile(photoName)
                         if d:
-                            product.photos.pop(f'photo-{i[-1]}')
+                            product.photos.pop(f'photo-{i}')
                             product.save()
                             deletedPhotos.append(i)
                         else:
