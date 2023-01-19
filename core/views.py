@@ -140,10 +140,11 @@ def updateProductPhotos(request):
                     dest.update(photosDict)
 
                     product.photos = dest
+                    print('pre', product.photos)
                     product.save()
                     print('dest', dest)
                     print('photosDict', photosDict)
-                    print('product photos', product.photos)
+                    print('product photos after', product.photos)
 
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
