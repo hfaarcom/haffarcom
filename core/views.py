@@ -139,6 +139,10 @@ def updateProductPhotos(request):
                     dest.update(product.photos)
                     dest.update(photosDict)
 
+                    print('dest', dest)
+                    print('photosDict', photosDict)
+                    print('product photos', product.photos)
+
                     product.photos = dest
                     product.save()
 
