@@ -56,8 +56,8 @@ def addNewProduct(request):
                 about.products_num += 1
                 about.save()
 
+                prodctId = GenerateUUID()
                 if photosNum != 0:
-                    prodctId = GenerateUUID()
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{i}'
 
@@ -228,6 +228,8 @@ def getProductbyId(request):
         if 'id' in data:
             # check data + serialize it
             product = Product.objects.get(id=data['id'])
+            product.views += 1
+            product.save()
             serializer = ProductsSerilizer(product, many=False)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:

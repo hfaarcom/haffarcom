@@ -3,6 +3,8 @@ from .models import *
 
 
 class ProductsSerilizer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+
     class Meta:
         model = Product
         fields = '__all__'

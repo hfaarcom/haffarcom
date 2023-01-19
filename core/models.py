@@ -28,7 +28,7 @@ def default_category_fields():
 
 
 class Product(models.Model):
-    date = models.DateField(null=True, blank=True, auto_now_add=True)
+    date = models.DateTimeField(null=True, blank=True, auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     expire_date = models.DateField(null=True, blank=True)
     status = models.CharField(
@@ -40,6 +40,7 @@ class Product(models.Model):
     photos = models.JSONField()
     fields = models.JSONField()
     uudi = models.CharField(max_length=100, null=True)
+    views = models.IntegerField(null=True)
 
     def get_absolute_url(self):
         return reverse('edit_product', kwargs={'pk': self.pk})
