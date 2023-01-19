@@ -112,6 +112,7 @@ def addNewProduct(request):
 def updateProductPhotos(request):
     try:
         data = request.data
+        print(data)
         if {'product', 'photosNum'} <= set(data):
             photosNum = data['photosNum']
             product = Product.objects.get(id=data['product'])
