@@ -134,19 +134,16 @@ def updateProductPhotos(request):
                         if checkFile(uploadingName):
                             url = uploadfile(
                                 request.data[requestPhotoName], uploadingName, 'png')
-                            photosDict[uploadingName] = url
+                            photosDict[f'photo-{i + productPhotosNum}'] = url
                         else:
                             errorPhotos[requestPhotoName] = 'File With That Name Exists'
                     dest = {}
                     dest.update(product.photos)
                     dest.update(photosDict)
 
-                    dist = {}
-                    for k, v in product.photos:
-                        for i in range(int(len(dest))):
-                            dist[f'photo-{i}'] = v
-                    product.photos = dist
+                    product.photos = dest
                     product.save()
+
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
             elif request.method == 'DELETE':
