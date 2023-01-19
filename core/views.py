@@ -119,7 +119,6 @@ def updateProductPhotos(request):
             if request.method == 'PUT':
 
                 photosDict = {}
-                errorPhotos = {}
 
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
