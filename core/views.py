@@ -82,7 +82,8 @@ def addNewProduct(request):
                     expire_date=expire_date,
                     subCategory=subcategory,
                     photos=photosDict,
-                    uudi=prodctId
+                    uudi=prodctId,
+                    views=0
                 )
 
                 Notification.objects.create(

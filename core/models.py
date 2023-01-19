@@ -40,7 +40,7 @@ class Product(models.Model):
     photos = models.JSONField()
     fields = models.JSONField()
     uudi = models.CharField(max_length=100, null=True)
-    views = models.IntegerField(null=True)
+    views = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('edit_product', kwargs={'pk': self.pk})
