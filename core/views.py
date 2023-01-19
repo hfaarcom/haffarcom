@@ -143,14 +143,14 @@ def updateProductPhotos(request):
 
             elif request.method == 'DELETE':
                 deletedPhotos = []
-                photosToDelete = data['photos']
-                for i in photosToDelete:
+                for i in request.data.getlist('photos'):
                     photoName = i.rsplit('/', 1)[1]
+                    print(photoName)
                     check = checkFile(photoName)
                     if not check:
                         d = deleteFile(photoName)
                         if d:
-                            product.photos.pop(i)
+                            product.photos.pop(f'photo-{i[-1]}')
                             product.save()
                             deletedPhotos.append(i)
                         else:
