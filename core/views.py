@@ -134,7 +134,7 @@ def updateProductPhotos(request):
                         if checkFile(uploadingName):
                             url = uploadfile(
                                 request.data[requestPhotoName], uploadingName, 'png')
-                            photosDict[requestPhotoName] = url
+                            photosDict[uploadingName] = url
                         else:
                             errorPhotos[requestPhotoName] = 'File With That Name Exists'
                     dest = {}
