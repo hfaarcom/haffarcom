@@ -123,14 +123,11 @@ def updateProductPhotos(request):
 
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
-                    for i in range(int(photosNum)):
+                    for i in range(1,int(photosNum)):
 
                         requestPhotoName = f'photo-{i}'
 
-                        if i == 0:
-                            uploadingName = f'{product.uudi}-{productPhotosNum + 1}'
-                        else:
-                            uploadingName = f'{product.uudi}-{productPhotosNum + i}'
+                        uploadingName = f'{product.uudi}-{productPhotosNum + i}'
 
                         if checkFile(uploadingName):
                             url = uploadfile(
