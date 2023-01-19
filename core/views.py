@@ -84,6 +84,7 @@ def addNewProduct(request):
                     photos=photosDict,
                     uuid=prodctId
                 )
+
                 Notification.objects.create(
                     user=user,
                     body='Product Has Created succesfully.'
