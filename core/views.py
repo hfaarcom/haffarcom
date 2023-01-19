@@ -123,16 +123,16 @@ def updateProductPhotos(request):
 
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
-                    for i in range(1, int(photosNum)):
+                    for i in range(int(photosNum)):
 
-                        requestPhotoName = f'photo-{i}'
+                        requestPhotoName = f'photo-{i + 1}'
 
-                        uploadingName = f'{product.uudi}-{productPhotosNum + i}'
+                        uploadingName = f'{product.uudi}-{productPhotosNum + i + 1}'
 
                         if checkFile(uploadingName):
                             url = uploadfile(
                                 request.data[requestPhotoName], uploadingName, 'png')
-                            photosDict[f'photo-{i + productPhotosNum}'] = url
+                            photosDict[f'photo-{i + productPhotosNum + 1}'] = url
                         else:
                             errorPhotos[requestPhotoName] = 'File With That Name Exists'
                     dest = {}
