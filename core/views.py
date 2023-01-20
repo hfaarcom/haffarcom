@@ -131,8 +131,8 @@ def updateProductPhotos(request):
                     data.pop('user')
                     data.pop('api_key')
                     print(data)
-                    print(type(json.loads(dict(data))), json.loads(dict(data)))
-                    for k, v in json.loads(dict(data)):
+                    print('JSON', json.loads(json.dumps(dict(data))))
+                    for k, v in json.loads(json.dumps(dict(data))):
                         uploadingName = f'{product.uudi}-{productPhotosNum+ 1}'
 
                         if checkFile(uploadingName):
