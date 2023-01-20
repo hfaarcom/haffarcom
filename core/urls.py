@@ -16,7 +16,6 @@ urlpatterns = [
     path('product/update/fields', views.updateProdcutFields),
     path('product/update/status', views.updateProductStatus),
     path('product/update/expire', views.updateProductExpireDate),
-    path('product/update/photos', views.updateProductPhotos),
     path('product/get/comments', views.getProductComments),
     path('product/comment', views.Productcomment),
     path('product/get/all', views.getAllProducts),

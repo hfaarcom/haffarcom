@@ -108,70 +108,70 @@ def addNewProduct(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT', 'DELETE'])
-def updateProductPhotos(request):
-    try:
-        data = request.data
-        print(data)
-        if {'product', 'photosNum'} <= set(data):
-            photosNum = data['photosNum']
-            product = Product.objects.get(id=data['product'])
-            errorPhotos = {}
-            if request.method == 'PUT':
+# @api_view(['PUT', 'DELETE'])
+# def updateProductPhotos(request):
+#     try:
+#         data = request.data
+#         print(data)
+#         if {'product', 'photosNum'} <= set(data):
+#             photosNum = data['photosNum']
+#             product = Product.objects.get(id=data['product'])
+#             errorPhotos = {}
+#             if request.method == 'PUT':
 
-                if photosNum != 0:
-                    productPhotosNum = len(product.photos)
-                    data.pop('photosNum')
-                    data.pop('product')
-                    data.pop('category')
-                    data.pop('subcategory')
-                    data.pop('fields')
-                    data.pop('user')
-                    data.pop('api_key')
-                    photosDict = {}
-                    for k, v in data.items():
-                        uploadingName = f'{product.uudi}-{productPhotosNum + 1}'
-                        check = checkFile(uploadingName)
-                        if check:
-                            url = uploadfile(
-                                request.data[k], uploadingName, 'png')
-                            photosDict[k + uploadingName] = url
-                        else:
-                            errorPhotos[k] = 'File With That Name Exists'
-                    print('photos Before = ', product.photos)
-                    print('photosDict = ', photosDict)
-                    dest = {}
-                    dest.update(product.photos)
-                    dest.update(photosDict)
-                    print('dest = ', dest)
-                    product.photos = dest
-                    product.save()
-                    print('photos after = ', product.photos)
+#                 if photosNum != 0:
+#                     productPhotosNum = len(product.photos)
+#                     data.pop('photosNum')
+#                     data.pop('product')
+#                     data.pop('category')
+#                     data.pop('subcategory')
+#                     data.pop('fields')
+#                     data.pop('user')
+#                     data.pop('api_key')
+#                     photosDict = {}
+#                     for k, v in data.items():
+#                         uploadingName = f'{product.uudi}-{productPhotosNum + 1}'
+#                         check = checkFile(uploadingName)
+#                         if check:
+#                             url = uploadfile(
+#                                 request.data[k], uploadingName, 'png')
+#                             photosDict[k + uploadingName] = url
+#                         else:
+#                             errorPhotos[k] = 'File With That Name Exists'
+#                     print('photos Before = ', product.photos)
+#                     print('photosDict = ', photosDict)
+#                     dest = {}
+#                     dest.update(product.photos)
+#                     dest.update(photosDict)
+#                     print('dest = ', dest)
+#                     product.photos = dest
+#                     product.save()
+#                     print('photos after = ', product.photos)
 
-                return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
+#                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
-            elif request.method == 'DELETE':
-                deletedPhotos = []
-                for i in range(int(data['photosNum'])):
-                    photo = data[f'photo-{i}']
-                    photoName = photo.rsplit('/', 1)[1]
-                    check = checkFile(photoName)
-                    if not check:
-                        d = deleteFile(photoName)
-                        if d:
-                            product.photos.pop(f'photo-{i}')
-                            product.save()
-                            deletedPhotos.append(i)
-                        else:
-                            errorPhotos[i] = 'server error'
-                    else:
-                        errorPhotos[i] = 'photo doesnt exists'
-                return Response({'deletedPhotos': deletedPhotos, 'errorPhotos': errorPhotos}, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+#             elif request.method == 'DELETE':
+#                 deletedPhotos = []
+#                 for i in range(int(data['photosNum'])):
+#                     photo = data[f'photo-{i}']
+#                     photoName = photo.rsplit('/', 1)[1]
+#                     check = checkFile(photoName)
+#                     if not check:
+#                         d = deleteFile(photoName)
+#                         if d:
+#                             product.photos.pop(f'photo-{i}')
+#                             product.save()
+#                             deletedPhotos.append(i)
+#                         else:
+#                             errorPhotos[i] = 'server error'
+#                     else:
+#                         errorPhotos[i] = 'photo doesnt exists'
+#                 return Response({'deletedPhotos': deletedPhotos, 'errorPhotos': errorPhotos}, status=status.HTTP_200_OK)
+#         else:
+#             return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
 
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+#     except Exception as e:
+#         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
