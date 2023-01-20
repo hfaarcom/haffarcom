@@ -130,12 +130,13 @@ def updateProductPhotos(request):
                     data.pop('api_key')
                     photosDict = {}
                     for k, v in data.items():
-                        print(f'k = {k},')
-                        uploadingName = f'{product.uudi}-{productPhotosNum+ 1}'
+                        uploadingName = f'{product.uudi}-{productPhotosNum + 1}'
                         if checkFile(uploadingName):
                             url = uploadfile(
                                 data['k'], uploadingName, 'png')
-
+                            print('data[k] = ', data['k'])
+                            print('uploadingName = ', uploadingName)
+                            print('url = ', url)
                             photosDict[uploadingName] = url
                         else:
                             errorPhotos[k] = 'File With That Name Exists'
