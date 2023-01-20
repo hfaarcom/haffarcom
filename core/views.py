@@ -123,28 +123,28 @@ def updateProductPhotos(request):
 
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
-                    for i in range(int(photosNum)):
-
-                        requestPhotoName = f'photo-{i + 1}'
-
-                        uploadingName = f'{product.uudi}-{productPhotosNum + i + 1}'
+                    data.pop('photosNum')
+                    data.pop('product')
+                    data.pop('category')
+                    data.pop('subcategory')
+                    data.pop('fields')
+                    data.pop('user')
+                    print(data)
+                    for k, v in data:
+                        uploadingName = f'{product.uudi}-{productPhotosNum+ 1}'
 
                         if checkFile(uploadingName):
                             url = uploadfile(
-                                request.data[requestPhotoName], uploadingName, 'png')
-                            photosDict[f'photo-{i + productPhotosNum + 1}'] = url
+                                v, uploadingName, 'png')
+                            photosDict[f'photo-{productPhotosNum + 1}'] = url
                         else:
-                            errorPhotos[requestPhotoName] = 'File With That Name Exists'
+                            errorPhotos[k] = 'File With That Name Exists'
                     dest = {}
                     dest.update(product.photos)
                     dest.update(photosDict)
-
+                    print(dest)
                     product.photos = dest
-                    print('pre', product.photos)
                     product.save()
-                    print('dest', dest)
-                    print('photosDict', photosDict)
-                    print('product photos after', product.photos)
 
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
