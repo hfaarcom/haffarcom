@@ -119,8 +119,6 @@ def updateProductPhotos(request):
             errorPhotos = {}
             if request.method == 'PUT':
 
-                photosDict = {}
-
                 if photosNum != 0:
                     productPhotosNum = len(product.photos)
                     data.pop('photosNum')
@@ -130,7 +128,7 @@ def updateProductPhotos(request):
                     data.pop('fields')
                     data.pop('user')
                     data.pop('api_key')
-                    print(data)
+                    photosDict = {}
                     for k, v in data.items():
                         print(f'k = {k},')
                         uploadingName = f'{product.uudi}-{productPhotosNum+ 1}'
