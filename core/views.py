@@ -133,19 +133,21 @@ def updateProductPhotos(request):
                     print(data)
                     for k, v in data.items():
                         uploadingName = f'{product.uudi}-{productPhotosNum+ 1}'
-
                         if checkFile(uploadingName):
                             url = uploadfile(
-                                v, uploadingName, 'png')
+                                data['k'], uploadingName, 'png')
                             photosDict[f'photo-{productPhotosNum + 1}'] = url
                         else:
                             errorPhotos[k] = 'File With That Name Exists'
+                    print('photos Before = ', product.photos)
+                    print('photosDict = ', photosDict)
                     dest = {}
                     dest.update(product.photos)
                     dest.update(photosDict)
-                    print(dest)
+                    print('dest = ', dest)
                     product.photos = dest
                     product.save()
+                    print('photos after = ', product.photos)
 
                 return Response({'putPhotos': photosDict, 'errorPhotos': errorPhotos},  status=status.HTTP_200_OK)
 
