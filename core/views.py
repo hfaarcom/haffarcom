@@ -35,6 +35,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def addNewProduct(request):
     try:
         data = request.data
+        print(data)
         if {'user', 'category', 'fields', 'subcategory', 'photosNum'} <= set(data):
             # check POST data
             token = getToken(data['user'])
