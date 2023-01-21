@@ -61,15 +61,19 @@ def addNewProduct(request):
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{i}'
 
-                        uploadingName = f'{prodctId}-{i}'
+                        if requestPhotoName in data:
 
-                        check = checkFile(uploadingName)
-                        if check:
-                            url = uploadfile(
-                                request.data[requestPhotoName], uploadingName, 'png')
-                            photosDict[requestPhotoName] = url
+                            uploadingName = f'{prodctId}-{i}'
+
+                            check = checkFile(uploadingName)
+                            if check:
+                                url = uploadfile(
+                                    request.data[requestPhotoName], uploadingName, 'png')
+                                photosDict[requestPhotoName] = url
+                            else:
+                                errorPhotos[requestPhotoName] = 'File With That Name Exists'
                         else:
-                            errorPhotos[requestPhotoName] = 'File With That Name Exists'
+                            pass
 
             # check Product Fields
 
