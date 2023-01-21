@@ -638,6 +638,8 @@ def getUserDetails(request):
         if 'token' in data:
             token = getToken(data['token'])
             user = User.objects.get(id=token['user_id'])
+        elif 'id' in data:
+            user = User.objects.get(id=data['id'])
             return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
