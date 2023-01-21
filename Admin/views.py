@@ -256,7 +256,6 @@ def AddNewAD(request):
     page_title = 'add new ad'
     if request.method == 'POST':
         form = ADForm(request.POST)
-
         if form.is_valid():
             form.save()
             return redirect('ads')

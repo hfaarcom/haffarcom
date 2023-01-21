@@ -98,18 +98,19 @@ class CommentReplay(models.Model):
 
 
 class About(models.Model):
-    app_name = models.CharField(max_length=100, null=True)
-    icon_link = models.CharField(max_length=1000, null=True)
-    privacy_policy = models.CharField(max_length=100000, null=True)
-    about_us = models.CharField(max_length=10000, null=True)
-    contact_number = models.CharField(max_length=100, null=True)
-    whatsapp_number = models.CharField(max_length=100, null=True)
-    agree_text = models.CharField(max_length=100000, null=True)
-    payment_info_text = models.CharField(max_length=100000, null=True)
+    app_name = models.CharField(max_length=100, null=True, blank=True)
+    icon_link = models.CharField(max_length=1000, null=True, blank=True)
+    privacy_policy = models.CharField(max_length=100000, null=True, blank=True)
+    about_us = models.CharField(max_length=10000, null=True, blank=True)
+    contact_number = models.CharField(max_length=100, null=True, blank=True)
+    whatsapp_number = models.CharField(max_length=100, null=True, blank=True)
+    agree_text = models.CharField(max_length=100000, null=True, blank=True)
+    payment_info_text = models.CharField(
+        max_length=100000, null=True, blank=True)
     payment_info_link = models.CharField(
         max_length=1000, null=True, blank=True)
     product_expire_days = models.IntegerField(null=True, blank=True)
-    products_num = models.IntegerField(default=0)
+    products_num = models.IntegerField(default=0, blank=True)
 
 
 class Notification(models.Model):
