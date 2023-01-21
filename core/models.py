@@ -28,7 +28,8 @@ def default_category_fields():
 
 
 class Product(models.Model):
-    date = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    date = models.DateTimeField(
+        null=True, blank=True, default=datetime.date.today)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     expire_date = models.DateField(null=True, blank=True)
     status = models.CharField(

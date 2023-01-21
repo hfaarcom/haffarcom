@@ -61,9 +61,6 @@ def addNewProduct(request):
                 if photosNum != 0:
                     for i in range(int(photosNum)):
                         requestPhotoName = f'photo-{i}'
-                        print(type(request.data[requestPhotoName]))
-                        print(request.data[requestPhotoName])
-
                         if requestPhotoName in data:
 
                             uploadingName = f'{prodctId}-{i}'
