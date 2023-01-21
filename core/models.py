@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from django.urls import reverse
-
+from datetime import timedelta
+from django.utils import timezone
 
 PRODUCT_STATUS = [
     ('approved', 'approved'),
@@ -29,7 +30,7 @@ def default_category_fields():
 
 class Product(models.Model):
     date = models.DateTimeField(
-        null=True, blank=True, default=datetime.date.today)
+        null=True, blank=True, default=timezone.now() + timedelta(hours=3))
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     expire_date = models.DateField(null=True, blank=True)
     status = models.CharField(
