@@ -648,6 +648,23 @@ def getUserDetails(request):
 
 
 @api_view(['GET'])
+def getUserDetailsById(request):
+    try:
+        data = request.query_params
+        if 'id' in data:
+            user = User.objects.get(id=data['id'])
+            product = Product.objects.filter(user=user)
+            print(product)
+            serializer = ProductsSerilizer(product, many=True)
+            return Response({'user': {'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email},
+                             'products': serializer.data}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
 def AboutApi(request):
     try:
         # return specific data from database
