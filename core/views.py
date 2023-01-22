@@ -242,6 +242,9 @@ def getProductbyId(request):
         if 'id' in data:
             # check data + serialize it
             product = Product.objects.get(id=data['id'])
+            date = datetime.strptime(product.expire_date, '%Y-%m-%d')
+            if datetime.datetime.today() > date:
+                product.status = 'pending'
             product.views += 1
             product.save()
             serializer = ProductsSerilizer(product, many=False)
