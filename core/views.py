@@ -8,7 +8,7 @@ from .models import *
 from .serializers import *
 from .utails import *
 import json
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -243,7 +243,7 @@ def getProductbyId(request):
             # check data + serialize it
             product = Product.objects.get(id=data['id'])
             date = datetime.strptime(product.expire_date, '%Y-%m-%d')
-            if datetime.datetime.today() > date:
+            if datetime.today() > date:
                 product.status = 'pending'
             product.views += 1
             product.save()
