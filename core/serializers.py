@@ -3,7 +3,7 @@ from .models import *
 
 
 class ProductsSerilizer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format="%m-%d %H:%M")
+    date = serializers.DateTimeField(format="%Y:%m-%d %H:%M")
 
     class Meta:
         model = Product
