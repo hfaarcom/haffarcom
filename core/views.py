@@ -242,7 +242,7 @@ def getProductbyId(request):
         if 'id' in data:
             # check data + serialize it
             product = Product.objects.get(id=data['id'])
-            date = datetime.strptime(product.expire_date, '%Y-%m-%d')
+            date = datetime.strptime(str(product.expire_date), '%Y-%m-%d')
             if datetime.today() > date:
                 product.status = 'pending'
             product.views += 1
