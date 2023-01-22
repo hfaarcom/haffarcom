@@ -25,7 +25,7 @@ ADS_STATUS = [
 
 
 def default_category_fields():
-    return {'title': 'text', 'price': 'number', 'description': 'text'}
+    return {'title': 'text', 'price': 'number', 'description': 'text', 'city': 'text'}
 
 
 class Product(models.Model):
