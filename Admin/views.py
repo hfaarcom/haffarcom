@@ -160,16 +160,9 @@ def EditCategoryPage(request, pk):
 
     if request.method == 'POST':
         data = request.POST
-        if 'fields' in data:
-            fields = category.fields
-            if not {data['fields']} <= set(fields):
-                fields[data['fields']] = 'required'
-                category.save()
-        else:
-            category.name = data['name']
-            category.photo = data['photo']
-            category.status = data['status']
-            category.save()
+        category.name = data['name']
+        category.status = data['status']
+        category.save()
 
         return redirect('category')
 
@@ -321,7 +314,6 @@ def EditSubCategory(request, pk):
         form = SubCategoryForm(request.POST)
         if form.is_valid():
             sub.name = form.cleaned_data['name']
-            sub.photo = form.cleaned_data['photo']
             sub.mainCategory = form.cleaned_data['mainCategory']
 
             sub.save()

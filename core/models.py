@@ -50,7 +50,6 @@ class Product(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=500, null=True, blank=True)
-    photo = models.CharField(max_length=500, null=True, blank=True)
     status = models.CharField(
         choices=CATEGORY_STATUS, null=True, blank=True, max_length=100, default='approved')
     fields = models.JSONField(null=True, default=default_category_fields)
@@ -63,7 +62,6 @@ class SubCategory(models.Model):
     mainCategory = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
-    photo = models.CharField(max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return self.name
