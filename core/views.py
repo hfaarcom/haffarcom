@@ -654,7 +654,7 @@ def getUserDetailsById(request):
         data = request.query_params
         if 'id' in data:
             user = User.objects.get(id=data['id'])
-            product = Product.objects.filter(user=user)
+            product = Product.objects.filter(user=user, status='approved')
             print(product)
             serializer = ProductsSerilizer(product, many=True)
             return Response({'user': {'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email},
