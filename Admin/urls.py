@@ -27,7 +27,10 @@ urlpatterns = [
     path('ads/new/', views.AddNewAD, name='new_ad'),
 
 
-    path('logout/', LogoutView.as_view(next_page=settings.LOGIN_URL), name='logoutUser')
+    path('logout/', LogoutView.as_view(next_page=settings.LOGIN_URL), name='logoutUser'),
+
+    path('agree/', views.agreementPage, name='agree'),
+    path('privacy/', views.privacyPage, name='privacy')
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

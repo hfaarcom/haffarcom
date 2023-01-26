@@ -98,6 +98,89 @@
           </div>
         </div>
       </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Product Name
+                </th>
+                <th
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                >
+                  Category
+                </th>
+                <th
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Status
+                </th>
+                <th
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Date
+                </th>
+                <th class="text-secondary opacity-7"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in product %}
+              <tr>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">
+                        {{i.fields|get_item:'title'}}
+                      </h6>
+                      <p class="text-xs text-secondary mb-0">
+                        price : {{i.fields|get_item:'price'}}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-xs font-weight-bold mb-0">
+                    {{i.category.name}}
+                  </p>
+                  <p class="text-xs text-secondary mb-0">{{i.subcategory}}</p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  {% if i.status == 'approved' %}
+
+                  <span class="badge badge-sm bg-gradient-success"
+                    >{{i.status}}</span
+                  >
+                  {% else %}
+                  <span class="badge badge-sm bg-gradient-danger"
+                    >{{i.status}}</span
+                  >
+
+                  {% endif %}
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold"
+                    >{{i.date}}</span
+                  >
+                </td>
+                <td class="align-middle">
+                  <a
+                    href="{{i.get_absolute_url}}"
+                    class="text-secondary font-weight-bold text-xs"
+                    data-toggle="tooltip"
+                    data-original-title="Edit user"
+                  >
+                    Edit
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -74,7 +74,6 @@ def EditProductPage(request, pk):
         for i in fields_to_remove:
             newData.pop(i)
         product.fields = newData
-        print(newData)
         product.save()
 
         return redirect('products')
@@ -91,8 +90,8 @@ def EditProductPage(request, pk):
 @login_required()
 def UsersPage(request):
     page_title = 'users'
-    users = User.objects.all()
-    paginator = Paginator(users, 10)
+    user = User.objects.all()
+    paginator = Paginator(user, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -107,6 +106,7 @@ def UsersPage(request):
 def EditUserPage(request, pk):
     page_title = 'edit user'
     user = get_object_or_404(User, id=pk)
+    products = Product.objects.filter(user=user)
 
     if request.method == 'POST':
         data = request.POST
@@ -132,7 +132,8 @@ def EditUserPage(request, pk):
 
     context = {
         'user': user,
-        'page_title': page_title
+        'page_title': page_title,
+        'product': products
     }
     return render(request, 'pages/edit_user.html', context)
 
@@ -360,15 +361,12 @@ def AboutPage(request):
     if request.method == 'POST':
         form = AboutForm(request.POST)
         if form.is_valid():
-            about.privacy_policy = form.cleaned_data['privacy_policy']
             about.about_us = form.cleaned_data['about_us']
             about.contact_number = form.cleaned_data['contact_number']
             about.whatsapp_number = form.cleaned_data['whatsapp_number']
-            about.agree_text = form.cleaned_data['agree_text']
             about.payment_info_text = form.cleaned_data['payment_info_text']
             about.payment_info_link = form.cleaned_data['payment_info_link']
             about.app_name = form.cleaned_data['app_name']
-            about.icon_link = form.cleaned_data['icon_link']
 
             about.save()
     else:
@@ -380,3 +378,46 @@ def AboutPage(request):
     }
 
     return render(request, 'pages/about.html', context)
+
+
+@login_required()
+def agreementPage(request):
+    about = About.objects.get(id=1)
+    data = request.POST
+    context = {
+        'text': about.agree_text
+    }
+    if request.method == 'POST':
+        if 'agree' in data:
+            agreementText = data['agree']
+
+            about.agree_text = agreementText
+
+            about.save()
+
+            return redirect('agree')
+        else:
+            print('bad data')
+    return render(request, 'pages/agree.html', context)
+
+
+@login_required()
+def privacyPage(request):
+    about = About.objects.get(id=1)
+    data = request.POST
+    context = {
+        'text': about.privacy_policy
+    }
+    if request.method == 'POST':
+        if 'privacy' in data:
+            privacyText = data['privacy']
+
+            about.privacy_policy = privacyText
+
+            about.save()
+
+            return redirect('privacy')
+        else:
+            print('bad data')
+            return redirect('privacy')
+    return render(request, 'pages/privacy.html', context)
