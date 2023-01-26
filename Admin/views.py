@@ -424,3 +424,28 @@ def privacyPage(request):
             print('bad data')
             return redirect('privacy')
     return render(request, 'pages/privacy.html', context)
+
+
+@login_required()
+def pendingProductsView(request):
+
+    page_title = 'pending/products'
+    product = Product.objects.filter(status='pending').order_by('-id')
+    paginator = Paginator(product, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'page_title': page_title
+    }
+
+    return render(request, 'pages/pending.html', context)
+
+
+@login_required()
+def changeProductStatus(request, pk):
+    product = Product.objects.get(id=pk)
+    product.status = 'approved'
+    product.save()
+    return redirect('pending')

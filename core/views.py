@@ -38,6 +38,7 @@ def addNewProduct(request):
         print(data)
         if {'user', 'category', 'fields', 'subcategory', 'photosNum'} <= set(data):
             # check POST data
+            about = About.objects.get(id=1)
             token = getToken(data['user'])
             user = User.objects.get(id=token.get('user_id'))
             category = Category.objects.get(id=data['category'])
@@ -57,7 +58,7 @@ def addNewProduct(request):
             errorPhotos = {}
 
             if Jfields.keys() == category.fields.keys():
-                about = About.objects.get(id=1)
+
                 about.products_num += 1
                 about.save()
 

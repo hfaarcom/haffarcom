@@ -16,7 +16,8 @@ urlpatterns = [
 
     path('category/', views.CategoryPage, name='category'),
     path('category/edit/<str:pk>/', views.EditCategoryPage, name='edit_category'),
-    path('category/delete/<str:pk>/<str:F>/', views.deleteCategory, name='delete_category'),
+    path('category/delete/<str:pk>/<str:F>/',
+         views.deleteCategory, name='delete_category'),
     path('category/new/', views.AddNewCategory, name='new_category'),
     path('category/sub/', views.SubCategoryPage, name='sub'),
     path('category/sub/edit/<str:pk>/', views.EditSubCategory, name='edit_sub'),
@@ -30,8 +31,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page=settings.LOGIN_URL), name='logoutUser'),
 
     path('agree/', views.agreementPage, name='agree'),
-    path('privacy/', views.privacyPage, name='privacy')
+    path('privacy/', views.privacyPage, name='privacy'),
+
+    path('pending/', views.pendingProductsView, name='pending'),
+    path('pending/<str:pk>/', views.changeProductStatus, name='status')
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    
