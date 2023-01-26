@@ -64,8 +64,6 @@ def EditProductPage(request, pk):
 
         form = ProductForm(request.POST, instance=product)
 
-        print(form.errors.as_text)
-
         if form.is_valid():
             form.save()
 
@@ -371,6 +369,7 @@ def AboutPage(request):
             about.payment_info_text = form.cleaned_data['payment_info_text']
             about.payment_info_link = form.cleaned_data['payment_info_link']
             about.app_name = form.cleaned_data['app_name']
+            about.auto_approve = form.cleaned_data['auto_approve']
 
             about.save()
     else:

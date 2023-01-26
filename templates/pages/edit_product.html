@@ -105,9 +105,12 @@
                   <div class="row">
                     {% for k,v in product.photos|get_items %}
                     <div class="col-md-3 m-auto mb-2">
-                      <div class="thumbnail">
-                        <img src="{{v}}" alt="Lights" style="width: 100%" />
-                      </div>
+                      <img
+                        class="img-fluid"
+                        src="{{v}}"
+                        alt="Lights"
+                        style="width: 50%; height: auto"
+                      />
                     </div>
                     {% endfor %}
                   </div>

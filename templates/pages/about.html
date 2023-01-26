@@ -58,6 +58,23 @@ load widget_tweaks %} {%block links %}
                       <label for="contact">Product Expire Days</label>
                       {{form.product_expire_days|attr:"class:form-control"}}
                     </div>
+
+                    <div class="col-lg-6 mb-2 p-3">
+                      <!-- <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckDefault"
+                      /> -->
+
+                      <div class="form-check">
+                        <h4 for="auto_approve">Auto Approve Products</h4>
+                        <label for="auto_approve"
+                          >check here to set True ...
+                        </label>
+                        {{form.auto_approve|attr:"class:form-check-input"}}
+                      </div>
+                    </div>
                     <button
                       class="btn btn-dark w-95"
                       form="mainform"

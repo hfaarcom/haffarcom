@@ -113,6 +113,7 @@ class About(models.Model):
         max_length=1000, null=True, blank=True)
     product_expire_days = models.IntegerField(null=True, blank=True)
     products_num = models.IntegerField(default=0, blank=True)
+    auto_approve = models.BooleanField(blank=True)
 
 
 class Notification(models.Model):

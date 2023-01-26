@@ -45,6 +45,10 @@ def addNewProduct(request):
             photosNum = data['photosNum']
             subcategory = SubCategory.objects.get(id=data['subcategory'])
             expire_date = date.today() + timedelta(days=About.objects.get(id=1).product_expire_days)
+            if about.auto_approve == True:
+                Pstatus = 'approved'
+            elif about.auto_approve == False:
+                Pstatus = 'pending'
 
             # convert STR to DICT/JSON
             Jfields = json.loads(fields)
@@ -82,7 +86,7 @@ def addNewProduct(request):
                     user=user,
                     category=category,
                     fields=Jfields,
-                    status='approved',
+                    status=Pstatus,
                     expire_date=expire_date,
                     subCategory=subcategory,
                     photos=photosDict,
