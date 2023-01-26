@@ -102,12 +102,15 @@
               </form>
               <div class="card-body px-0 pb-2 align-items-center">
                 <div class="form-group row d-flex justify-content-center">
-                  {% for k,v in product.photos|get_items %}
-                  <div class="col-lg-6 mb-2 p-3">
-                    <h6>{{k}}</h6>
-                    <img src="{{v}}" class="img-fluid" alt="{{v}}" />
+                  <div class="row">
+                    {% for k,v in product.photos|get_items %}
+                    <div class="col-md-3 m-auto mb-2">
+                      <div class="thumbnail">
+                        <img src="{{v}}" alt="Lights" style="width: 100%" />
+                      </div>
+                    </div>
+                    {% endfor %}
                   </div>
-                  {% endfor %}
                 </div>
               </div>
             </div>

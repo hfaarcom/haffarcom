@@ -5,7 +5,8 @@ from core.models import *
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['date', 'user', 'expire_date',
+                  'status', 'category', 'subCategory']
 
 
 class ADForm(forms.ModelForm):

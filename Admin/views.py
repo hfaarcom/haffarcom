@@ -60,7 +60,11 @@ def EditProductPage(request, pk):
 
     if request.method == 'POST':
 
-        form = ProductForm(request.POST)
+        print(request.POST)
+
+        form = ProductForm(request.POST, instance=product)
+
+        print(form.errors.as_text)
 
         if form.is_valid():
             form.save()

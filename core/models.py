@@ -28,21 +28,25 @@ def default_category_fields():
     return {'title': 'text', 'price': 'number', 'description': 'text', 'city': 'text'}
 
 
+def default_fields():
+    return {}
+
+
 class Product(models.Model):
     date = models.DateTimeField(
         null=True, blank=True, default=timezone.now() + timedelta(hours=3))
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     expire_date = models.DateField(null=True, blank=True)
     status = models.CharField(
-        max_length=100, null=True, choices=PRODUCT_STATUS)
+        max_length=100, null=True, choices=PRODUCT_STATUS, blank=True)
     category = models.ForeignKey(
-        'Category', on_delete=models.CASCADE, null=True)
+        'Category', on_delete=models.CASCADE, null=True, blank=True)
     subCategory = models.ForeignKey(
-        'SubCategory', on_delete=models.CASCADE, null=True)
-    photos = models.JSONField()
-    fields = models.JSONField()
-    uudi = models.CharField(max_length=100, null=True)
-    views = models.IntegerField(default=0)
+        'SubCategory', on_delete=models.CASCADE, null=True, blank=True)
+    photos = models.JSONField(default=default_fields, null=True)
+    fields = models.JSONField(default=default_fields, null=True)
+    uudi = models.CharField(max_length=100, null=True, blank=True)
+    views = models.IntegerField(default=0, blank=True)
 
     def get_absolute_url(self):
         return reverse('edit_product', kwargs={'pk': self.pk})
