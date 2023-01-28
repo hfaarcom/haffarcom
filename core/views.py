@@ -97,7 +97,7 @@ def addNewProduct(request):
 
                 Notification.objects.create(
                     user=user,
-                    body='Product Has Created succesfully.'
+                    body='تم انشاء منتجك بنجاح!'
                 )
 
                 # serialize data
@@ -111,7 +111,7 @@ def addNewProduct(request):
                 return Response({'error': 'Product Fields Does not match with its category'}, status=status.HTTP_400_BAD_REQUEST)
 
         else:
-            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -199,7 +199,7 @@ def getUserProducts(request):
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -217,7 +217,7 @@ def getProductByCat(request):
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -235,7 +235,7 @@ def getProductBySubCat(request):
             serializer = ProductsSerilizer(products, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -255,7 +255,7 @@ def getProductbyId(request):
             serializer = ProductsSerilizer(product, many=False)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -281,9 +281,9 @@ def updateProdcutFields(request):
                 serializer = ProductsSerilizer(product, many=False)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
-                return Response({'error': 'Product Fields Does not match with its category'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -298,7 +298,7 @@ def updateProductStatus(request):
             product.save()
             return Response({'updated': product.status}, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -314,7 +314,7 @@ def updateProductExpireDate(request):
             product.save()
             return Response({'updated': product.expire_date}, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -342,9 +342,9 @@ def getCategoryFields(request):
                 category = Category.objects.get(id=data['category']).fields
                 return Response(category, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'Bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -361,9 +361,9 @@ def getCategories(request):
                 serializer = CategorySerializer(category, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'Bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'API_KEY required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -379,9 +379,9 @@ def getCategory(request):
                 serializer = CategorySerializer(category, many=False)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'Bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'API_KEY required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -400,9 +400,9 @@ def getSubCategoryById(request):
 
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -418,9 +418,9 @@ def getAllSubCategories(request):
                 serializer = SubCategorySerializer(sub, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad bata'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -438,7 +438,7 @@ def getProductComments(request):
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -462,14 +462,14 @@ def Productcomment(request):
 
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
-                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
             if 'comment' in data:
                 comment = Comment.objects.get(id=data['comment'])
                 comment.delete()
                 return Response({'deleted'}, status=status.HTTP_201_CREATED)
             else:
-                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -519,9 +519,9 @@ def ADS(request):
                 serializer = ADSerializer(ads, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad API_KEY'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -538,22 +538,25 @@ def Login(request):
             username = data['username']
             password = data['password']
             # check if user exists
-            if User.objects.filter(username=username).exists():
-                # check if user authenticated
-                auth = authenticate(
-                    request, username=username, password=password)
+            if len(password) > 6:
+                if User.objects.filter(username=username).exists():
+                    # check if user authenticated
+                    auth = authenticate(
+                        request, username=username, password=password)
 
-                # serialize + return
-                if auth is not None:
-                    user = User.objects.get(username=username)
-                    token = get_tokens_for_user(user)
-                    return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email, 'token': token}, status=status.HTTP_202_ACCEPTED)
+                    # serialize + return
+                    if auth is not None:
+                        user = User.objects.get(username=username)
+                        token = get_tokens_for_user(user)
+                        return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email, 'token': token}, status=status.HTTP_202_ACCEPTED)
+                    else:
+                        return Response({'error': 'اسم المستخدم او كلمة المرور غير صحيح'}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'error': 'اسم المستخدم غير موجود'}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'error': 'Username doesnt exists'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'يجب ان تحتوي كلمة المرور على الاقل 6 احرف '})
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -580,9 +583,9 @@ def updateUser(request):
 
                 return Response({'username': user.username, 'email': user.email, 'first_name': first_name, 'contact': contact, 'id': token['user_id'], 'token': get_tokens_for_user(user)}, status=status.HTTP_201_CREATED)
             else:
-                return Response({'error': 'user is not exists'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'المستخدم غير موجود'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -608,9 +611,9 @@ def Register(request):
                 token = get_tokens_for_user(newUser)
                 return Response({'username': username, 'name': first_name, 'contact': contact, 'user': newUser.id, 'token': token}, status=status.HTTP_201_CREATED)
             else:
-                return Response({'error': 'username or email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'اسم المستخدم غير موجود'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -632,9 +635,9 @@ def ChangePassword(request):
                 token = get_tokens_for_user(newUser)
                 return Response({'username': username, 'name': newUser.first_name, 'contact': newUser.last_name, 'user': newUser.id, 'token': token}, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'Username or Password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'اسم المستخدم او الرمز السري خاطىء'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -648,7 +651,7 @@ def getUserDetails(request):
             user = User.objects.get(id=token['user_id'])
             return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email}, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -665,7 +668,7 @@ def getUserDetailsById(request):
             return Response({'user': {'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email},
                              'products': serializer.data}, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response({'error': 'Bad Data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -693,7 +696,7 @@ def UserNotifications(request):
                 serializer = NotificationSerializer(noti, many=True)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
             data = request.data
             if 'id' in data:
@@ -707,7 +710,7 @@ def UserNotifications(request):
                 noti.delete()
                 return Response({'cleared'}, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'POST':
             data = request.data
             if {'user', 'body'} <= set(data):
@@ -723,6 +726,6 @@ def UserNotifications(request):
                 serializer = NotificationSerializer(noti, many=False)
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'error': 'bad data'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

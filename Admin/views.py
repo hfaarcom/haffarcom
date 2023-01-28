@@ -448,4 +448,10 @@ def changeProductStatus(request, pk):
     product = Product.objects.get(id=pk)
     product.status = 'approved'
     product.save()
+    user = User.objects.get(id=product.user.id)
+    productTitle = product.fields['title']
+    Notification.objects.create(
+        user=user,
+        body=f'تم قبول منتجك بنجاح تحت اسم : {productTitle}'
+    )
     return redirect('pending')
