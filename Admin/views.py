@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from core.utails import uploadfile
 
 
 @login_required()
@@ -206,7 +207,7 @@ def deleteCategory(request, pk, F):
 @login_required()
 def ADPages(request):
     page_title = 'ads'
-    ads = AD.objects.all()
+    ads = AD.objects.all().order_by('-id')
     paginator = Paginator(ads, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -253,7 +254,14 @@ def AddNewAD(request):
     if request.method == 'POST':
         form = ADForm(request.POST)
         if form.is_valid():
-            form.save()
+            photo = request.FILES.get('photo')
+            ad = AD.objects.create(
+                name=form.cleaned_data['name'],
+                status=form.cleaned_data['status'],
+                expire_date=form.cleaned_data['expire_date'],
+                contact=form.cleaned_data['contact'],
+                photo=photo
+            )
             return redirect('ads')
         else:
             print(form.errors.as_text)
