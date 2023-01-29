@@ -28,11 +28,7 @@ load widget_tweaks %} {%block links %}
                 Edit Ad : {{ad.name}} #{{ad.id}}
               </div>
               <div class="card-body px-0 pb-2 align-items-center">
-                <form
-                  id="mainform"
-                  method="post"
-                  action="{{product.get_absolute_url}}"
-                >
+                <form id="mainform" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <div class="form-group row d-flex justify-content-center">
                     <div class="col-lg-6 mb-2 p-3">
@@ -44,8 +40,10 @@ load widget_tweaks %} {%block links %}
                       {{form.status|attr:"class:form-control"}}
                     </div>
                     <div class="col-lg-6 mb-2 p-3">
-                      <label for="photo">AD Photo Link</label>
-                      {{form.photo|attr:"class:form-control"}}
+                      <label for="photo">AD Photo</label>
+                      {{form.photo|attr:"class:form-control-file"|attr:"type:file"}}
+
+                      <h5>current photo link : <a>{{ad.photo}}</a></h5>
                     </div>
                     <div class="col-lg-6 mb-2 p-3">
                       <label for="date">AD Date</label>

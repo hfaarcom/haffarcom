@@ -544,7 +544,7 @@ def Login(request):
                 else:
                     return Response({'error': 'username or password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'error': 'username doent exsits'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'username doesnt exsits'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:

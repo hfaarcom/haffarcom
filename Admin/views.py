@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from core.utails import uploadfile, GenerateUUID
+from core.utails import uploadfile, GenerateUUID, deleteFile, checkFile
 
 
 @login_required()
@@ -227,10 +227,32 @@ def EditAdPage(request, pk):
 
     if request.method == 'POST':
         form = ADForm(request.POST)
+
+        print(request.FILES)
+
+        if 'photo' in request.FILES:
+            Newphoto = request.FILES.get('photo')
+
+            oldPhoto = ad.photo
+
+            photoName = oldPhoto.rsplit('/', 1)[1]
+            check = checkFile(photoName)
+            if not check:
+                d = deleteFile(photoName)
+
+            upload = uploadfile(
+                Newphoto, GenerateUUID(), 'png'
+            )
+
+            ad.photo = upload
+
+            print(upload)
+
+            ad.save()
+
         if form.is_valid():
             ad.name = form.cleaned_data['name']
             ad.status = form.cleaned_data['status']
-            ad.photo = form.cleaned_data['photo']
             ad.expire_date = form.cleaned_data['expire_date']
             ad.contact = form.cleaned_data['contact']
 
