@@ -78,7 +78,7 @@ class AD(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     status = models.CharField(
         choices=ADS_STATUS, null=True, blank=True, max_length=100)
-    photo = models.FileField(blank=True)
+    photo = models.CharField(null=True, blank=True, max_length=1000)
     date = models.DateTimeField(default=datetime.date.today, blank=True)
     expire_date = models.DateField(null=True, blank=True)
     contact = models.CharField(max_length=100, null=True)

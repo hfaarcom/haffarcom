@@ -538,23 +538,20 @@ def Login(request):
             username = data['username']
             password = data['password']
             # check if user exists
-            if len(password) > 6:
-                if User.objects.filter(username=username).exists():
-                    # check if user authenticated
-                    auth = authenticate(
-                        request, username=username, password=password)
+            if User.objects.filter(username=username).exists():
+                # check if user authenticated
+                auth = authenticate(
+                    request, username=username, password=password)
 
-                    # serialize + return
-                    if auth is not None:
-                        user = User.objects.get(username=username)
-                        token = get_tokens_for_user(user)
-                        return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email, 'token': token}, status=status.HTTP_202_ACCEPTED)
-                    else:
-                        return Response({'error': 'اسم المستخدم او كلمة المرور غير صحيح'}, status=status.HTTP_400_BAD_REQUEST)
+                # serialize + return
+                if auth is not None:
+                    user = User.objects.get(username=username)
+                    token = get_tokens_for_user(user)
+                    return Response({'user': user.id, 'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'email': user.email, 'token': token}, status=status.HTTP_202_ACCEPTED)
                 else:
-                    return Response({'error': 'اسم المستخدم غير موجود'}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'error': 'username or password are wrong'}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'error': 'يجب ان تحتوي كلمة المرور على الاقل 6 احرف '})
+                return Response({'error': 'username doent exsits'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
