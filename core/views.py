@@ -511,17 +511,10 @@ def CommentReplayView(request):
 @api_view(['GET'])
 def ADS(request):
     try:
-        data = request.query_params
-        if 'api_key' in data:
-            if data['api_key'] == settings.API_KEY:
-                # check data + serialize it
-                ads = AD.objects.filter(status='approved')
-                serializer = ADSerializer(ads, many=True)
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-            else:
-                return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
+        # check data + serialize it
+        ads = AD.objects.filter(status='approved')
+        serializer = ADSerializer(ads, many=True)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
