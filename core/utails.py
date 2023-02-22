@@ -36,7 +36,7 @@ session = boto3.session.Session()
 client = session.client('s3',
                         config=botocore.config.Config(
                             s3={'addressing_style': 'virtual'}),
-                        endpoint_url='https://fra1.digitaloceanspaces.com',
+                        endpoint_url='https://nyc3.digitaloceanspaces.com',
                         aws_secret_access_key=secret_key,
                         aws_access_key_id=public_key,
                         )
@@ -50,7 +50,7 @@ def uploadfile(file, name, type):
                       ACL='public-read',
                       ContentType=f'image/{type}'
                       )
-    url = f'https://haffar.fra1.cdn.digitaloceanspaces.com/{name}'
+    url = f'https://haffarcom.nyc3.digitaloceanspaces.com/{name}'
     return url
 
 
