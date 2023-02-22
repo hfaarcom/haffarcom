@@ -636,13 +636,13 @@ def ChangePassword(request):
 def getUserDetails(request):
     try:
         data = request.query_params
-        print(data)
-        if 'token' in data:
-            token = getToken(data['token'])
-            user = User.objects.get(id=token['user_id'])
-            return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email}, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
+        print(data['token'])
+#         if 'token' in data:
+        token = getToken(data['token'])
+        user = User.objects.get(id=token['user_id'])
+        return Response({'username': user.username, 'name': user.first_name, 'contact': user.last_name, 'user': user.id, 'token': get_tokens_for_user(user), 'email': user.email}, status=status.HTTP_202_ACCEPTED)
+#         else:
+#             return Response({'error': 'خطأ من السيرفر! نرجو التواصل مع الدعم وابلاغنا بالمشكلة'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
