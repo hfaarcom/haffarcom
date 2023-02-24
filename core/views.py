@@ -581,7 +581,7 @@ def updateUser(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET])
 def Register(request):
     try:
         data = request.data
