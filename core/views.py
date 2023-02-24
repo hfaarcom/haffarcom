@@ -581,10 +581,12 @@ def updateUser(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST', 'GET])
+@api_view(['POST', 'GET'])
 def Register(request):
     try:
         data = request.data
+        print(data)
+        print(request.query_params)
         if {'username', 'password', 'name', 'contact'} <= set(data):
             # check data + serialize it
             username = data['username']
